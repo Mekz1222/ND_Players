@@ -17,5 +17,19 @@
                 <button class="interactionButton interactionRight" data-action="right"><i class="fa-solid fa-circle-chevron-right"></i></button>
             </div>
         </div>
+        <form id="creationForm">
+            <h1 class="createCharacterText">Create a character:</h1>
+            <div class="creationInfo">
+                <input type="text" placeholder="First name" id="characterFN" class="characterInput" required>
+                <input type="text" placeholder="Last name" id="characterLN" class="characterInput" required>
+                <input type="date" id="characterDOB" class="characterInput" required>
+                <select id="characterGender" class="characterInput" required>
+                    <option class="characterInputOption">Male</option>
+                    <option class="characterInputOption">Female</option>
+                </select>
+                <button class="creationCreate" type="submit" form="creationForm">Create</button>
+                <button class="creationCancel" type="reset">Cancel</button>
+            </div>
+        </form>
     </body>
 </html>

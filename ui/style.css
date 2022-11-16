@@ -23,15 +23,6 @@
     outline: none;
     transition: opacity 0.3s;
 }
-.interactionButton:hover {
-    transition: opacity 0.1s;
-    opacity: 0.6;
-    cursor: pointer;
-}
-.interactionButton:active {
-    transition: opacity 0.1s;
-    opacity: 1;
-}
 .interactionNew {
     color: rgb(0, 119, 255);
 }
@@ -40,4 +31,83 @@
 }
 .interactionRight, .interactionLeft  {
     color: #ccc;
+}
+
+#creationForm {
+    display: none;
+    position: absolute;
+    margin: auto;
+    inset: 0;
+    width: 20vw;
+    height: 50vh;
+    background-color: #242526;
+    border-radius: 20px;
+}
+.createCharacterText {
+    position: absolute;
+    margin: auto;
+    top: 2%;
+    left: 0;
+    right: 0;
+    color: #ccc;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.creationInfo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    position: absolute;
+    margin: auto;
+    top: 15%;
+    right: 0;
+    left: 0;
+    height: 30%;
+}
+.characterInput {
+    color: #ccc;
+    padding: 2%;
+    margin: 8%;
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
+    border: none;
+    border-bottom: 2px #ccc solid;
+    border-radius: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.characterInputOption {
+    color: white;
+    background-color: #3b3b3b;
+}
+input {
+    color-scheme: dark;
+}
+.creationCreate {
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    margin: 5%;
+    background-color: rgb(0, 119, 255);
+    transition: opacity 0.3s;
+}
+.creationCancel {
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    margin: 5%;
+    background-color: rgb(245, 43, 43);
+    transition: opacity 0.3s;
+}
+
+.interactionButton:hover, .creationCancel:hover, .creationCreate:hover {
+    transition: opacity 0.1s;
+    opacity: 0.6;
+    cursor: pointer;
+}
+.interactionButton:active, .creationCancel:active, .creationCreate:active {
+    transition: opacity 0.1s;
+    opacity: 1;
+}
+.characterInput:focus-within {
+    border-color: rgb(0, 119, 255);
 }
