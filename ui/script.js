@@ -1,4 +1,7 @@
 $(function() {
+
+    let selected = 0
+
     window.addEventListener("message", function(event) {
         const item = event.data;
         if (item.type == "display") {
@@ -15,10 +18,10 @@ $(function() {
                 $(".lineup").append(`<div id="lineup${i}" class="lineupCharacter" data-lineup="${i}"></div>`);
             };
             $(".lineupCharacter").click(function() {
+                selected = $(this).data("lineup")
                 $.post(`https://${GetParentResourceName()}/select`, JSON.stringify({
-                    lineup: $(this).data("lineup")
+                    lineup: selected
                 }));
-                $(this).hide();
             });
         };
     });
@@ -61,6 +64,7 @@ $(function() {
         $.post(`https://${GetParentResourceName()}/action`, JSON.stringify({
             action: "delete"
         }));
+        $(`#lineup${selected}`).hide();
     });
 
     // confirm character creator

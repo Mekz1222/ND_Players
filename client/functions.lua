@@ -8,6 +8,13 @@ lineups = {
 }
 linedUp = {}
 
+function genderAnim(ped)
+    if IsPedMale(ped) then
+        return "male"
+    end
+    return "female"
+end
+
 function findPedById(id)
     for _, info in pairs(linedUp) do
         if info.character == id then
@@ -109,11 +116,7 @@ function playLightSound()
 end
 
 function playReactAnim(ped)
-    if IsPedMale(ped) then
-        TaskPlayAnim(ped, "mp_character_creation@lineup@male_a", "react_light", 8.0, 0.0, -1, 0, 0, false, false, false)
-    else
-        TaskPlayAnim(ped, "mp_character_creation@lineup@female_a", "react_light", 8.0, 0.0, -1, 0, 0, false, false, false)
-    end
+    TaskPlayAnim(ped, "mp_character_creation@lineup@" .. genderAnim(ped) .. "_a", "react_light", 8.0, 0.0, -1, 0, 0, false, false, false)
 end
 
 -- Set player clothes by character, this will be used when the player selects a character to play on.
@@ -148,11 +151,7 @@ end
 
 -- Play holding up board animation on ped.
 function playBoardAnim(ped, type)
-    local animDict = "mp_character_creation@lineup@female_a"
-
-    if IsPedMale(ped) then
-        animDict = "mp_character_creation@lineup@male_a"
-    end
+    local animDict = "mp_character_creation@lineup@" .. genderAnim(ped) .. "_a"
 
     RequestAnimDict(animDict)
     repeat Wait(0) until HasAnimDictLoaded(animDict)
