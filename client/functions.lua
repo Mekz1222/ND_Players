@@ -52,12 +52,12 @@ function init()
     CreateThread(function()
         DoScreenFadeOut(0)
 
-        cam = CreateCameraWithParams('DEFAULT_SCRIPTED_CAMERA', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 39.4, false, 2)
+        cam = CreateCameraWithParams('DEFAULT_SCRIPTED_CAMERA', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 37.0, false, 2)
         SetCamActive(cam, true)
         RenderScriptCams(true, false, 0, true, true)
         ShakeCam(cam, "HAND_SHAKE", 0.1)
-        SetCamCoord(cam, 416.359955, -998.358643, -99.115492)
-        SetCamRot(cam, 0.144769, 0.0, 89.702049, 2)
+        SetCamCoord(cam, 416.4084, -998.3806, -99.24789)
+        SetCamRot(cam, 0.878834, -0.022102, 90.0173, 2)
         PointCamAtCoord(cam, 409.08, -998.47, -99.0)
 
         while display do
