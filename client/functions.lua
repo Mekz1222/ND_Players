@@ -90,10 +90,6 @@ function init()
                 linedUp[lineup].ped = dummyPed
             end
         end
-        SendNUIMessage({
-            type = "lineup",
-            amount = lineup
-        })
         Wait(1000)
         DoScreenFadeIn(1000)
         playLightSound()
@@ -102,6 +98,10 @@ function init()
             ClearPedTasks(peds[i])
             playBoardAnim(peds[i], 'loop')
         end
+        SendNUIMessage({
+            type = "lineup",
+            amount = lineup
+        })
     end)
 end
 
