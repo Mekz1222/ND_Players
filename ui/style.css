@@ -3,7 +3,7 @@
 }
 .interaction {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     position: absolute;
     margin: auto;
     left: 0;
@@ -23,21 +23,23 @@
     outline: none;
     transition: opacity 0.3s;
 }
+.interactionPlay {
+    color: rgb(0, 255, 106);
+}
 .interactionNew {
     color: rgb(0, 119, 255);
 }
 .interactionDelete {
     color: rgb(245, 43, 43);
 }
-.interactionRight, .interactionLeft  {
-    color: #ccc;
-}
 
 #creationForm {
     display: none;
     position: absolute;
     margin: auto;
-    inset: 0;
+    bottom: 15vh;
+    right: 0;
+    left: 0;
     width: 20vw;
     height: 20vh;
     background-color: #242526b9;
@@ -120,7 +122,9 @@ input {
     display: none;
     position: absolute;
     margin: auto;
-    inset: 0;
+    bottom: 20vh;
+    right: 0;
+    left: 0;
     width: 20vw;
     height: 15vh;
     background-color: #242526b9;
