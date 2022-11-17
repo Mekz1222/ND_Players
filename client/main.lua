@@ -11,6 +11,7 @@ local test = false
 RegisterCommand("switch", function()
     test = not test
     SetNuiFocus(test, test)
+    LeaveCursorMode()
     SendNUIMessage({
         type = "display",
         status = test
@@ -35,35 +36,12 @@ AddEventHandler("onResourceStart", function(resourceName)
     if (GetCurrentResourceName() ~= resourceName) then
         return
     end
-    Wait(2000)
+    Wait(500)
     init()
 end)
 
 AddEventHandler("playerSpawned", function()
     init()
-end)
-
-lib.callback("ND_CharactersV2:getCharacters", false, function(characters)
-    local lineup = 1
-    for player, character in pairs(characters) do
-        if character.clothing and next(character.clothing) ~= nil then
-            if lineup > 1 then break end -- testing
-            -- if lineup > #lineups then break end
-            print(character.firstName, character.lastName)
-            while not HasModelLoaded(character.clothing.model) do
-                RequestModel(character.clothing.model)
-                Wait(100)
-            end
-            local ped = CreatePed(2, character.clothing.model, lineups[lineup].x, lineups[lineup].y, lineups[lineup].z, lineups[lineup].w, false, false)
-            lineup = lineup + 1
-            exports["fivem-appearance"]:setPedTattoos(ped, character.clothing.tattoos)
-            exports["fivem-appearance"]:setPedAppearance(ped, character.clothing.appearance)
-            peds[#peds+1] = ped
-
-            createBoard(ped)
-            playBoardAnim(ped)
-        end
-    end
 end)
 
 AddEventHandler('onResourceStop', function(resourceName)

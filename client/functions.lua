@@ -2,6 +2,13 @@ function init()
     local ped = PlayerPedId()
     FreezeEntityPosition(ped, true)
     SetEntityCoords(ped, 417.27, -998.65, -99.40)
+
+    SetNuiFocus(true, true)
+    SendNUIMessage({
+        type = "display",
+        status = true
+    })
+
     CreateThread(function()
         DoScreenFadeOut(0)
         NetworkStartSoloTutorialSession()
@@ -13,6 +20,30 @@ function init()
         SetCamCoord(cam, 416.359955, -998.358643, -99.115492)
         SetCamRot(cam, 0.144769, 0.0, 89.702049, 2)
         PointCamAtCoord(cam, 409.08, -998.47, -99.0)
+    end)
+
+    lib.callback("ND_CharactersV2:getCharacters", false, function(characters)
+        local lineup = 1
+        for player, character in pairs(characters) do
+            if character.clothing and next(character.clothing) ~= nil then
+                if lineup > 1 then break end -- testing
+                -- if lineup > #lineups then break end
+                print(character.firstName, character.lastName)
+                while not HasModelLoaded(character.clothing.model) do
+                    RequestModel(character.clothing.model)
+                    Wait(100)
+                end
+                local ped = CreatePed(2, character.clothing.model, lineups[lineup].x, lineups[lineup].y, lineups[lineup].z, lineups[lineup].w, false, false)
+                lineup = lineup + 1
+                exports["fivem-appearance"]:setPedTattoos(ped, character.clothing.tattoos)
+                exports["fivem-appearance"]:setPedAppearance(ped, character.clothing.appearance)
+                peds[#peds+1] = ped
+    
+                createBoard(ped)
+                playBoardAnim(ped)
+            end
+        end
+        Wait(1000)
         DoScreenFadeIn(1000)
     end)
 end
