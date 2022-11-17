@@ -16,6 +16,12 @@ files {
 }
 ui_page "ui/index.html"
 
-shared_script "config.lua"
-server_script "source/server.lua"
-client_script "source/client.lua"
+shared_scripts {
+    "@ox_lib/init.lua",
+    "config.lua"
+}
+server_script "server/main.lua"
+client_scripts {
+    "client/functions.lua",
+    "client/main.lua"
+} 
