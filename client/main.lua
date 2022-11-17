@@ -11,7 +11,9 @@ RegisterNUICallback("action", function(data)
         DeletePed(ped)
         -- TriggerServerEvent("ND:deleteCharacter", selected)
     elseif data.action == "play" then
-        print("Action", "play as character")
+        if findPedById(selected) then
+            print("Action", "play as character", selected)
+        end
     end
 end)
 
