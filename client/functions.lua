@@ -135,7 +135,10 @@ function playLightSound()
 end
 
 function playReactAnim(ped)
-    TaskPlayAnim(ped, "mp_character_creation@lineup@" .. genderAnim(ped) .. "_a", "react_light", 8.0, 0.0, -1, 0, 0, false, false, false)
+    local animDict = "mp_character_creation@lineup@" .. genderAnim(ped) .. "_a"
+    RequestAnimDict(animDict)
+    repeat Wait(0) until HasAnimDictLoaded(animDict)
+    TaskPlayAnim(ped, animDict, "react_light", 8.0, 0.0, -1, 0, 0, false, false, false)
 end
 
 -- Set player clothes by character, this will be used when the player selects a character to play on.
