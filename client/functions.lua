@@ -1,3 +1,5 @@
+local cam = nil
+
 peds = {}
 boards = {}
 lineups = {
@@ -23,6 +25,15 @@ function findPedById(id)
     end
 end
 
+function playOutro(ped)
+    StopEntityAnim(ped, "loop_raised", "mp_character_creation@lineup@" .. genderAnim(ped) .. "_a", 0)
+    TaskPlayAnim(ped, "mp_character_creation@lineup@" .. genderAnim(ped) .. "_a", "outro", 8.0, 0.0, -1, 1, 0, false, false, false)
+    Wait(7000)
+    DoScreenFadeOut(1000)
+    repeat Wait(0) until IsScreenFadedOut()
+    DoScreenFadeIn(1000)
+end
+
 function init()
     local ped = PlayerPedId()
     FreezeEntityPosition(ped, true)
@@ -33,6 +44,7 @@ function init()
         type = "display",
         status = true
     })
+    display = true
 
     CreateThread(function()
         DoScreenFadeOut(0)
@@ -43,6 +55,13 @@ function init()
         SetCamCoord(cam, 416.359955, -998.358643, -99.115492)
         SetCamRot(cam, 0.144769, 0.0, 89.702049, 2)
         PointCamAtCoord(cam, 409.08, -998.47, -99.0)
+
+        while display do
+            ThefeedHideThisFrame()
+            HideHudAndRadarThisFrame()
+
+            Wait(0)
+        end
     end)
 
     lib.callback("ND_CharactersV2:getCharacters", false, function(characters)
@@ -149,18 +168,17 @@ function createBoard(ped)
     SetModelAsNoLongerNeeded(`prop_police_id_text`)
 end
 
--- Play holding up board animation on ped.
+-- Play board animation on ped.
 function playBoardAnim(ped, type)
     local animDict = "mp_character_creation@lineup@" .. genderAnim(ped) .. "_a"
 
     RequestAnimDict(animDict)
     repeat Wait(0) until HasAnimDictLoaded(animDict)
 
-    TaskPlayAnim(ped, animDict, type, 50.0, 8.0, -1, 49, 0.0, false, false, false)
-    RemoveAnimDict(animDict)
+    TaskPlayAnim(ped, animDict, type, 50.0, 8.0, -1, 1, 0.0, false, false, false)
 end
 
--- delete all peds and baords.
+-- delete all peds and boards, set camera back to gameplay.
 function cleanUp()
     for i = 1, #boards do
         DeleteObject(boards[i].board)
@@ -169,4 +187,14 @@ function cleanUp()
     for i = 1, #peds do
         DeletePed(peds[i])
     end
+    SetNuiFocus(false, false)
+    LeaveCursorMode()
+    SendNUIMessage({
+        type = "display",
+        status = false
+    })
+    SetCamActive(cam, false)
+    RenderScriptCams(false, false, 0, true, true)
+    DestroyAllCams(true)
+    display = false
 end

@@ -13,6 +13,7 @@ RegisterNUICallback("action", function(data)
     elseif data.action == "play" then
         if findPedById(selected) then
             print("Action", "play as character", selected)
+            playOutro(findPedById(selected))
         end
     end
 end)
