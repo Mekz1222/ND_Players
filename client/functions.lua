@@ -126,7 +126,7 @@ end
 
 function playLightSound()
     local soundId = GetSoundId()
-    local audio = RequestScriptAudioBank("Mugshot_Character_Creator", false)
+    local audio = RequestScriptAudioBank("DLC_GTAO/MUGSHOT_ROOM", false)
     repeat Wait(0) until audio
     PlaySoundFrontend(soundId, 'Lights_On', 'GTAO_MUGSHOT_ROOM_SOUNDS', true)
     ReleaseSoundId(soundId)
