@@ -8,6 +8,14 @@ lineups = {
 }
 linedUp = {}
 
+function findPedById(id)
+    for _, info in pairs(linedUp) do
+        if info.character == id then
+            return info.ped
+        end
+    end
+end
+
 function init()
     local ped = PlayerPedId()
     FreezeEntityPosition(ped, true)

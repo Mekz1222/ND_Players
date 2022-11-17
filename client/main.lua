@@ -1,14 +1,6 @@
 local display = false
 selected = 0
 
-function findPedById(id)
-    for _, info in pairs(linedUp) do
-        if info.character == id then
-            return info.ped
-        end
-    end
-end
-
 -- TriggerServerEvent("ND:setCharacterOnline", data.id)
 -- TriggerServerEvent("ND:deleteCharacter", data.id)
 RegisterNUICallback("action", function(data)
