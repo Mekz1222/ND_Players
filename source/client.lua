@@ -31,6 +31,14 @@ AddEventHandler('onPlayerSpawned', function()
     init()
 end)
 
+
+lib.callback("ND_CharactersV2:getCharacters", false, function(character)
+
+end)
+
+-- TriggerServerEvent("ND:setCharacterOnline", data.id)
+-- TriggerServerEvent("ND:deleteCharacter", data.id)
+
 RegisterNUICallback("action", function(data)
     if data.action == "new" then
         print("Action", "create new character")
