@@ -1,3 +1,5 @@
+local display = false
+
 lineups = {
     vector4(409.29, -997.26, -99.00, 261.20),
     vector4(409.25, -998.08, -99.00, 266.71),
@@ -6,17 +8,6 @@ lineups = {
 }
 peds = {}
 boards = {}
-
-local test = false
-RegisterCommand("switch", function()
-    test = not test
-    SetNuiFocus(test, test)
-    LeaveCursorMode()
-    SendNUIMessage({
-        type = "display",
-        status = test
-    })
-end, false)
 
 -- TriggerServerEvent("ND:setCharacterOnline", data.id)
 -- TriggerServerEvent("ND:deleteCharacter", data.id)
@@ -33,9 +24,7 @@ RegisterNUICallback("action", function(data)
 end)
 
 AddEventHandler("onResourceStart", function(resourceName)
-    if (GetCurrentResourceName() ~= resourceName) then
-        return
-    end
+    if GetCurrentResourceName() ~= resourceName then return end
     Wait(500)
     init()
 end)
@@ -44,11 +33,19 @@ AddEventHandler("playerSpawned", function()
     init()
 end)
 
-AddEventHandler('onResourceStop', function(resourceName)
+AddEventHandler("onResourceStop", function(resourceName)
     if GetCurrentResourceName() ~= resourceName then return end
 
     cleanUp()
-    
     DestroyAllCams(true)
-    ClearPedTasksImmediately(PlayerPedId())
 end)
+
+RegisterCommand(Config.frameworkCommand, function()
+    display = not display
+    SetNuiFocus(display, display)
+    LeaveCursorMode()
+    SendNUIMessage({
+        type = "display",
+        status = display
+    })
+end, false)
