@@ -1,4 +1,6 @@
 local cam = nil
+local interiorPos = vec3(399.9, -998.7, -100.0)
+local interior = GetInteriorAtCoordsWithType(interiorPos.x, interiorPos.y, interiorPos.z, "v_mugshot")
 
 peds = {}
 boards = {}
@@ -38,8 +40,8 @@ end
 function init()
     local ped = PlayerPedId()
     FreezeEntityPosition(ped, true)
-    local interiorPos = vec3(399.9, -998.7, -100.0)
-    PinInteriorInMemory(GetInteriorAtCoordsWithType(interiorPos.x, interiorPos.y, interiorPos.z, "v_mugshot"))
+    PinInteriorInMemory(interior)
+    repeat Wait(0) until IsInteriorReady(interior)
     SetEntityCoords(ped, 417.27, -998.65, -99.40, false, false, false, false)
 
     SetNuiFocus(true, true)
@@ -134,8 +136,6 @@ function playLightSound()
     repeat Wait(0) until audio
     PlaySoundFrontend(soundId, 'Lights_On', 'GTAO_MUGSHOT_ROOM_SOUNDS', true)
     ReleaseSoundId(soundId)
-    ---@diagnostic disable-next-line: redundant-parameter
-    ReleaseScriptAudioBank('Mugshot_Character_Creator')
 end
 
 function playReactAnim(ped)
@@ -170,7 +170,6 @@ function createBoard(ped)
     boards[key].overlay = CreateObject(`prop_police_id_text`, 0.0, 0.0, 0.0, true, true, false)
     AttachEntityToEntity(boards[key].overlay, boards[key].board, -1, 4103, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
     AttachEntityToEntity(boards[key].board, ped, GetPedBoneIndex(ped, 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-
     SetModelAsNoLongerNeeded(`prop_police_id_board`)
     SetModelAsNoLongerNeeded(`prop_police_id_text`)
 end
@@ -202,5 +201,9 @@ function cleanup()
     SetCamActive(cam, false)
     RenderScriptCams(false, false, 0, true, true)
     DestroyAllCams(true)
+    ReleaseNamedScriptAudioBank('Mugshot_Character_Creator')
+    RemoveAnimDict('mp_character_creation@lineup@male_a')
+    RemoveAnimDict('mp_character_creation@lineup@female_a')
+    UnpinInterior(interior)
     display = false
 end
