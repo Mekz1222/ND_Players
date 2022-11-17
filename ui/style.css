@@ -12,7 +12,7 @@
     width: 10vw;
     height: 5%;
     border-radius: 35px;
-    background-color: #242526;
+    background-color: #242526b9;
     white-space: nowrap;
 }
 .interactionButton {
@@ -40,7 +40,7 @@
     inset: 0;
     width: 20vw;
     height: 50vh;
-    background-color: #242526;
+    background-color: #242526b9;
     border-radius: 20px;
 }
 .createCharacterText {
