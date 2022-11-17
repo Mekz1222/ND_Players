@@ -62,9 +62,6 @@ lib.callback("ND_CharactersV2:getCharacters", false, function(characters)
 
             createBoard(ped)
             playBoardAnim(ped)
-            PrepBoard()
-            Wait(250)
-            MakeBoard(character.firstName, character.lastName, character.dob)
         end
     end
 end)
