@@ -38,6 +38,8 @@ end
 function init()
     local ped = PlayerPedId()
     FreezeEntityPosition(ped, true)
+    local interiorPos = vec3(399.9, -998.7, -100.0)
+    PinInteriorInMemory(GetInteriorAtCoordsWithType(interiorPos.x, interiorPos.y, interiorPos.z, "v_mugshot"))
     SetEntityCoords(ped, 417.27, -998.65, -99.40, false, false, false, false)
 
     SetNuiFocus(true, true)
