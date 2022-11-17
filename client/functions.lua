@@ -31,6 +31,7 @@ function playOutro(ped)
     Wait(7000)
     DoScreenFadeOut(1000)
     repeat Wait(0) until IsScreenFadedOut()
+    cleanup()
     DoScreenFadeIn(1000)
 end
 
@@ -91,7 +92,7 @@ function init()
         Wait(1000)
         DoScreenFadeIn(1000)
         playLightSound()
-        Wait(5000)
+        Wait(4500)
         for i = 1, #peds do
             ClearPedTasks(peds[i])
             playBoardAnim(peds[i], 'loop')
@@ -182,7 +183,7 @@ function playBoardAnim(ped, type)
 end
 
 -- delete all peds and boards, set camera back to gameplay.
-function cleanUp()
+function cleanup()
     for i = 1, #boards do
         DeleteObject(boards[i].board)
         DeleteObject(boards[i].overlay)
@@ -191,7 +192,6 @@ function cleanUp()
         DeletePed(peds[i])
     end
     SetNuiFocus(false, false)
-    LeaveCursorMode()
     SendNUIMessage({
         type = "display",
         status = false

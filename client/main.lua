@@ -13,6 +13,9 @@ RegisterNUICallback("action", function(data)
     elseif data.action == "play" then
         if findPedById(selected) then
             print("Action", "play as character", selected)
+            local soundId = GetSoundId()
+            PlaySoundFrontend(soundId, "BASE_JUMP_PASSED", "HUD_AWARDS", true)
+            ReleaseSoundId(soundId)
             playOutro(findPedById(selected))
         end
     end
@@ -23,6 +26,9 @@ RegisterNUICallback("select", function(data)
     if selected == linedUp[data.lineup].character then return end
     for i = 1, #peds do
         if peds[i] == linedUp[data.lineup].ped then
+            local soundId = GetSoundId()
+            PlaySoundFrontend(soundId, "SELECT", "HUD_FREEMODE_SOUNDSET", true)
+            ReleaseSoundId(soundId)
             playBoardAnim(peds[i], 'loop_raised')
         else
             playBoardAnim(peds[i], 'loop')
@@ -43,14 +49,13 @@ end)
 
 AddEventHandler("onResourceStop", function(resourceName)
     if GetCurrentResourceName() ~= resourceName then return end
-    cleanUp()
+    cleanup()
     DestroyAllCams(true)
 end)
 
 RegisterCommand(Config.frameworkCommand, function()
     display = not display
     SetNuiFocus(display, display)
-    LeaveCursorMode()
     SendNUIMessage({
         type = "display",
         status = display
