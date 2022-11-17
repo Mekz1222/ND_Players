@@ -1,3 +1,13 @@
+peds = {}
+boards = {}
+lineups = {
+    vector4(409.29, -997.26, -99.00, 261.20),
+    vector4(409.25, -998.08, -99.00, 266.71),
+    vector4(409.22, -998.94, -99.00, 269.97),
+    vector4(409.20, -999.73, -99.00, 274.27)
+}
+linedUp = {}
+
 function init()
     local ped = PlayerPedId()
     FreezeEntityPosition(ped, true)
@@ -21,30 +31,36 @@ function init()
     end)
 
     lib.callback("ND_CharactersV2:getCharacters", false, function(characters)
-        local lineup = 1
+        local lineup = 0
+        linedUp = {}
         for player, character in pairs(characters) do
-            if character.clothing and next(character.clothing) ~= nil then
-                --if lineup > 1 then break end -- testing
+            if character.clothing or next(character.clothing) ~= nil then
+                lineup += 1
                 if lineup > #lineups then break end
-                print(character.firstName, character.lastName)
+                RequestModel(character.clothing.model)
                 repeat Wait(0) until HasModelLoaded(character.clothing.model)
                 local dummyPed = CreatePed(2, character.clothing.model, lineups[lineup].x, lineups[lineup].y, lineups[lineup].z, lineups[lineup].w, false, false)
-                lineup += 1
                 exports["fivem-appearance"]:setPedTattoos(dummyPed, character.clothing.tattoos)
                 exports["fivem-appearance"]:setPedAppearance(dummyPed, character.clothing.appearance)
                 peds[#peds + 1] = dummyPed
-
                 createBoard(dummyPed)
                 playReactAnim(dummyPed)
+                linedUp[lineup] = {}
+                linedUp[lineup].character = character.id
+                linedUp[lineup].ped = dummyPed
             end
         end
+        SendNUIMessage({
+            type = "lineup",
+            amount = lineup
+        })
         Wait(1000)
         DoScreenFadeIn(1000)
         playLightSound()
         Wait(5000)
         for i = 1, #peds do
             ClearPedTasks(peds[i])
-            playBoardAnim(peds[i])
+            playBoardAnim(peds[i], 'loop')
         end
     end)
 end
@@ -123,7 +139,7 @@ function createBoard(ped)
 end
 
 -- Play holding up board animation on ped.
-function playBoardAnim(ped)
+function playBoardAnim(ped, type)
     local animDict = "mp_character_creation@lineup@female_a"
 
     if IsPedMale(ped) then
@@ -133,7 +149,7 @@ function playBoardAnim(ped)
     RequestAnimDict(animDict)
     repeat Wait(0) until HasAnimDictLoaded(animDict)
 
-    TaskPlayAnim(ped, animDict, 'loop_raised', 50.0, 8.0, -1, 49, 0.0, false, false, false)
+    TaskPlayAnim(ped, animDict, type, 50.0, 8.0, -1, 49, 0.0, false, false, false)
     RemoveAnimDict(animDict)
 end
 

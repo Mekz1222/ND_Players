@@ -8,6 +8,19 @@ $(function() {
                 $(".overlay").fadeOut("fast");
             };
         };
+
+        if (item.type == "lineup") {
+            $(".lineup").empty();
+            for (let i = 1; i < item.amount+1; i++) {
+                $(".lineup").append(`<div id="lineup${i}" class="lineupCharacter" data-lineup="${i}"></div>`);
+            };
+            $(".lineupCharacter").click(function() {
+                $.post(`https://${GetParentResourceName()}/select`, JSON.stringify({
+                    lineup: $(this).data("lineup")
+                }));
+                $(this).hide();
+            });
+        };
     });
 
     // interaction buttons at the bottom, can be left, right, new, delete.

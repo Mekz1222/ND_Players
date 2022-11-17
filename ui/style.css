@@ -162,3 +162,27 @@ input {
     color: #ccc;
     transition: opacity 0.3s;
 }
+
+.lineupCharacter {
+    position: absolute;
+    margin: auto;
+    top: 32%;
+    width: 8%;
+    height: 35%;
+    /* background-color: rgba(255, 0, 0, 0.1); */
+}
+.lineupCharacter:hover {
+    cursor: pointer;
+}
+#lineup1 {
+    right: 31.5%;
+}
+#lineup2 {
+    right: 40.5%;
+}
+#lineup3 {
+    left: 40.5%;
+}
+#lineup4 {
+    left: 31.5%;
+}

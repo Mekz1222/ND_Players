@@ -1,41 +1,52 @@
 local display = false
+selected = 0
 
-lineups = {
-    vector4(409.29, -997.26, -99.00, 261.20),
-    vector4(409.25, -998.08, -99.00, 266.71),
-    vector4(409.22, -998.94, -99.00, 269.97),
-    vector4(409.20, -999.73, -99.00, 274.27)
-}
-peds = {}
-boards = {}
+function findPedById(id)
+    for _, info in pairs(linedUp) do
+        if info.character == id then
+            return info.ped
+        end
+    end
+end
 
 -- TriggerServerEvent("ND:setCharacterOnline", data.id)
 -- TriggerServerEvent("ND:deleteCharacter", data.id)
 RegisterNUICallback("action", function(data)
     if data.action == "new" then
-        print("Action", "create new character")
+        TriggerServerEvent("ND_CharactersV2:createCharacter", data)
     elseif data.action == "delete" then
-        print("Action", "delete this character")
-    elseif data.action == "left" then
-        print("Action", "view character to the left")
-    elseif data.action == "right" then
-        print("Action", "view character to the right")
+        local ped = findPedById(selected)
+        DeletePed(ped)
+        -- TriggerServerEvent("ND:deleteCharacter", selected)
+    elseif data.action == "play" then
+        print("Action", "play as character")
     end
+end)
+
+-- when a character is clicked on and selected.
+RegisterNUICallback("select", function(data)
+    for i = 1, #peds do
+        if peds[i] == linedUp[data.lineup].ped then
+            playBoardAnim(peds[i], 'loop_raised')
+        else
+            playBoardAnim(peds[i], 'loop')
+        end
+    end
+    selected = linedUp[data.lineup].character
 end)
 
 AddEventHandler("onResourceStart", function(resourceName)
     if GetCurrentResourceName() ~= resourceName then return end
-    Wait(500)
+    Wait(1000)
     init()
 end)
 
 AddEventHandler("playerSpawned", function()
-    init()
+    -- init()
 end)
 
 AddEventHandler("onResourceStop", function(resourceName)
     if GetCurrentResourceName() ~= resourceName then return end
-
     cleanUp()
     DestroyAllCams(true)
 end)
