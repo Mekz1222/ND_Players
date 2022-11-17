@@ -20,6 +20,7 @@ end)
 
 -- when a character is clicked on and selected.
 RegisterNUICallback("select", function(data)
+    if selected == linedUp[data.lineup].character then return end
     for i = 1, #peds do
         if peds[i] == linedUp[data.lineup].ped then
             playBoardAnim(peds[i], 'loop_raised')
