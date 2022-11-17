@@ -1,4 +1,7 @@
 function init()
+    local ped = PlayerPedId()
+    FreezeEntityPosition(ped, true)
+    SetEntityCoords(ped, 417.27, -998.65, -99.40)
     CreateThread(function()
         DoScreenFadeOut(0)
         NetworkStartSoloTutorialSession()
