@@ -27,16 +27,6 @@ function findPedById(id)
     end
 end
 
-function playOutro(ped)
-    StopEntityAnim(ped, "loop_raised", "mp_character_creation@lineup@" .. genderAnim(ped) .. "_a", 0)
-    TaskPlayAnim(ped, "mp_character_creation@lineup@" .. genderAnim(ped) .. "_a", "outro", 8.0, 0.0, -1, 1, 0, false, false, false)
-    Wait(7000)
-    DoScreenFadeOut(1000)
-    repeat Wait(0) until IsScreenFadedOut()
-    cleanup()
-    DoScreenFadeIn(1000)
-end
-
 function init()
     local ped = PlayerPedId()
     FreezeEntityPosition(ped, true)
@@ -132,8 +122,8 @@ end
 
 function playLightSound()
     local soundId = GetSoundId()
-    local audio = RequestScriptAudioBank("DLC_GTAO/MUGSHOT_ROOM", false)
-    repeat Wait(0) until audio
+    RequestScriptAudioBank("DLC_GTAO/MUGSHOT_ROOM", false)
+    Wait(125)
     PlaySoundFrontend(soundId, 'Lights_On', 'GTAO_MUGSHOT_ROOM_SOUNDS', true)
     ReleaseSoundId(soundId)
 end
@@ -158,6 +148,28 @@ function setCharacterClothes(character)
     end
 end
 
+function playRaiseBoard(ped)
+    TaskPlayAnim(ped, "mp_character_creation@lineup@" .. genderAnim(ped) .. "_a", "low_to_high", 8.0, -8.0, -1, 512, 0, false, false, false)
+    Wait(1500)
+    TaskPlayAnim(ped, "mp_character_creation@lineup@" .. genderAnim(ped) .. "_a", "loop_raised", 8.0, -8.0, -1, 513, 0, false, false, false)
+end
+
+function playLowerBoard(ped)
+    TaskPlayAnim(ped, "mp_character_creation@lineup@" .. genderAnim(ped) .. "_a", "high_to_low", 8.0, -8.0, -1, 512, 0, false, false, false)
+    Wait(1500)
+    TaskPlayAnim(ped, "mp_character_creation@lineup@" .. genderAnim(ped) .. "_a", "loop", 8.0, -8.0, -1, 513, 0, false, false, false)
+end
+
+function playOutro(ped)
+    StopEntityAnim(ped, "loop_raised", "mp_character_creation@lineup@" .. genderAnim(ped) .. "_a", 0)
+    TaskPlayAnim(ped, "mp_character_creation@lineup@" .. genderAnim(ped) .. "_a", "outro", 8.0, 0.0, -1, 1, 0, false, false, false)
+    Wait(6500)
+    DoScreenFadeOut(1000)
+    repeat Wait(0) until IsScreenFadedOut()
+    cleanup()
+    DoScreenFadeIn(1000)
+end
+
 -- Spawn board model.
 function createBoard(ped)
     RequestModel(`prop_police_id_text`)
@@ -166,8 +178,8 @@ function createBoard(ped)
 
     local key = #boards + 1
     boards[key] = {}
-    boards[key].board = CreateObject(`prop_police_id_board`, 0.0, 0.0, 0.0, true, true, false)
-    boards[key].overlay = CreateObject(`prop_police_id_text`, 0.0, 0.0, 0.0, true, true, false)
+    boards[key].board = CreateObject(`prop_police_id_board`, 0.0, 0.0, 0.0, false, true, false)
+    boards[key].overlay = CreateObject(`prop_police_id_text`, 0.0, 0.0, 0.0, false, true, false)
     AttachEntityToEntity(boards[key].overlay, boards[key].board, -1, 4103, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
     AttachEntityToEntity(boards[key].board, ped, GetPedBoneIndex(ped, 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
     SetModelAsNoLongerNeeded(`prop_police_id_board`)
@@ -202,8 +214,8 @@ function cleanup()
     RenderScriptCams(false, false, 0, true, true)
     DestroyAllCams(true)
     ReleaseNamedScriptAudioBank('Mugshot_Character_Creator')
-    RemoveAnimDict('mp_character_creation@lineup@male_a')
-    RemoveAnimDict('mp_character_creation@lineup@female_a')
+    RemoveAnimDict("mp_character_creation@lineup@male_a")
+    RemoveAnimDict("mp_character_creation@lineup@female_a")
     UnpinInterior(interior)
     display = false
 end

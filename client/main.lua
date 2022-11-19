@@ -29,9 +29,9 @@ RegisterNUICallback("select", function(data)
             local soundId = GetSoundId()
             PlaySoundFrontend(soundId, "SELECT", "HUD_FREEMODE_SOUNDSET", true)
             ReleaseSoundId(soundId)
-            playBoardAnim(peds[i], 'loop_raised')
-        else
-            playBoardAnim(peds[i], 'loop')
+            playRaiseBoard(peds[i])
+        elseif peds[i] == findPedById(selected) then
+            playLowerBoard(peds[i])
         end
     end
     selected = linedUp[data.lineup].character
