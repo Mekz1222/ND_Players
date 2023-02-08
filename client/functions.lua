@@ -1,6 +1,4 @@
-local cam = nil
-local interiorPos = vec3(399.9, -998.7, -100.0)
-local interior = GetInteriorAtCoordsWithType(interiorPos.x, interiorPos.y, interiorPos.z, 'v_mugshot')
+local cam
 
 peds = {}
 boards = {}
@@ -32,8 +30,8 @@ function init()
 
     local ped = PlayerPedId()
     FreezeEntityPosition(ped, true)
-    PinInteriorInMemory(interior)
-    repeat Wait(0) until IsInteriorReady(interior)
+    PinInteriorInMemory(94722)
+    repeat Wait(0) until IsInteriorReady(94722)
     SetEntityCoords(ped, 417.27, -998.65, -99.40, false, false, false, false)
 
     SetNuiFocus(true, true)
@@ -64,7 +62,7 @@ function init()
         local lineup = 0
         linedUp = {}
         for _, character in pairs(characters) do
-            if next(character.data.clothing) then
+            if character.data.clothing then
                 lineup += 1
                 if lineup > #lineups then break end
                 RequestModel(character.data.clothing.model)
@@ -81,7 +79,7 @@ function init()
                 }
             end
         end
-        Wait(1100)
+        Wait(1000)
         DoScreenFadeIn(1000)
         playLightSound()
         Wait(4500)
@@ -139,14 +137,14 @@ end
 
 -- Set player clothes by character, this will be used when the player selects a character to play on.
 function setCharacterClothes(character)
-    if not character.clothing or next(character.clothing) == nil then
+    if not character.data.clothing then
         changeAppearence = true
     else
         changeAppearence = false
-        exports['fivem-appearance']:setPlayerModel(character.clothing.model)
+        exports['fivem-appearance']:setPlayerModel(character.data.clothing.model)
         local ped = PlayerPedId()
-        exports['fivem-appearance']:setPedTattoos(ped, character.clothing.tattoos)
-        exports['fivem-appearance']:setPedAppearance(ped, character.clothing.appearance)
+        exports['fivem-appearance']:setPedTattoos(ped, character.data.clothing.tattoos)
+        exports['fivem-appearance']:setPedAppearance(ped, character.data.clothing.appearance)
     end
 end
 
@@ -218,5 +216,5 @@ function cleanup()
     ReleaseNamedScriptAudioBank('Mugshot_Character_Creator')
     RemoveAnimDict('mp_character_creation@lineup@male_a')
     RemoveAnimDict('mp_character_creation@lineup@female_a')
-    UnpinInterior(interior)
+    UnpinInterior(94722)
 end

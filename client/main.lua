@@ -25,9 +25,7 @@ end)
 -- when a character is clicked on and selected.
 RegisterNUICallback('select', function(data, cb)
     cb(1)
-    if selected == linedUp[data.lineup].character then
-        return
-    end
+    if selected == linedUp[data.lineup].character then return end
     for i = 1, #peds do
         if peds[i] == linedUp[data.lineup].ped then
             local soundId = GetSoundId()
