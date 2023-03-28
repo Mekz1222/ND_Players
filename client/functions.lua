@@ -152,14 +152,14 @@ function playRaiseBoard(ped)
     local animDict = ('mp_character_creation@lineup@%s_a'):format(genderAnim(ped))
     TaskPlayAnim(ped, animDict, 'low_to_high', 8.0, -8.0, -1, 0.0, 0, false, false, false)
     Wait(1500)
-    TaskPlayAnim(ped, animDict, 'loop_raised', 8.0, -8.0, -1, 0.0, 0, false, false, false)
+    TaskPlayAnim(ped, animDict, 'loop_raised', 8.0, -8.0, -1, 1, 0, false, false, false)
 end
 
 function playLowerBoard(ped)
     local animDict = ('mp_character_creation@lineup@%s_a'):format(genderAnim(ped))
     TaskPlayAnim(ped, animDict, 'high_to_low', 8.0, -8.0, -1, 0.0, 0, false, false, false)
     Wait(1500)
-    TaskPlayAnim(ped, animDict, 'loop', 8.0, -8.0, -1, 0.0, 0, false, false, false)
+    TaskPlayAnim(ped, animDict, 'loop', 8.0, -8.0, -1, 1, 0, false, false, false)
 end
 
 function playOutro(ped)
