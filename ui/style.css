@@ -1,3 +1,13 @@
+:root {
+    --map-width: 50%;
+    --markers-height: 985px;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
 .overlay {
     display: none;
 }
@@ -189,4 +199,173 @@ input {
 }
 #lineup4 {
     left: 31.5%;
+}
+
+
+
+
+.marker {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50% 50% 50% 0;
+    background: #E53E3E;
+    transform: rotate(45deg);
+    border: 2px solid #fff;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    transition: 0.2s;
+    user-select: none;
+}
+.marker:after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 4px;
+    left: 4px;
+    border-radius: 50%;
+    background-color: #fff;
+}
+.marker:hover {
+    transition: 0.1s;
+    scale: 1.2;
+}
+.marker-active {
+    background-color: #4CAF50;
+    scale: 1.2;
+}
+
+.map-display {
+    display: none;
+    position: absolute;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #143d6b;
+}
+.map-container {
+    position: absolute;
+    margin: auto;
+    inset: 0;
+    height: 1024px;
+    width: var(--map-width);
+}
+.map-container > img {
+    position: absolute;
+    margin: auto;
+    inset: 0;
+    height: auto;
+    width: 100%;
+    transform: rotate(-90deg);
+    user-select: none;
+}
+.map-markers {
+    position: absolute;
+    margin: auto;
+    inset: 0;
+    height: var(--markers-height);
+    width: var(--map-width);
+    transform: rotate(-90deg);
+}
+
+.map-choices {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 2%;
+    bottom: 0;
+    width: 20%;
+    height: 60%;
+    background-color: rgba(50, 50, 50, 0.8);
+    border-radius: 10px;
+    overflow-x: hidden;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 6px;
+}
+.map-choices > div {
+    width: 90%;
+    padding: 2% 5%;
+    font-size: 1.2rem;
+    font-family: 'Roboto', sans-serif;
+    background-color: rgba(75, 75, 75, 0.8);
+    background-image: linear-gradient(to right, rgba(75, 75, 75, 0.8), rgba(55, 55, 55, 0.8));
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    color: #f0f0f0;
+}
+.map-choices::before {
+    display: inline-block;
+    content: "Select your spawn location";
+    background-image: linear-gradient(to right, #3b73ff, #8245e5);
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    padding: 2% 5%;
+    font-size: 1.5rem;
+    width: 100%;
+    border-bottom: solid rgba(255, 255, 255, 0.5) 2px;
+}
+.map-choices > div:hover {
+    background-image: linear-gradient(to right, rgba(59, 59, 59, 0.8), rgba(39, 39, 39, 0.8));
+}
+.map-choices > div.choice-active {
+    background-image: linear-gradient(to right, #3b73ff, #8245e5);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px;
+}
+
+.map-spawn {
+    display: none;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 2%;
+    bottom: 0;
+    width: 20%;
+    height: 25%;
+    background-color: rgba(50, 50, 50, 0.8);
+    border-radius: 10px;
+    overflow-x: hidden;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 6px;
+}
+.map-spawn > div {
+    position: relative;
+    margin: auto;
+    top: 9%;
+    left: 0;
+    right: 0;
+    width: 87%;
+    height: 70%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.map-spawn > div > img {
+    position: relative;
+    margin: auto;
+    inset: 0;
+    max-width: 100%;
+}
+.map-spawn-button {
+    position: relative;
+    margin: auto;
+    top: 13%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 43.5%;
+    height: 13%;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    background: linear-gradient(to right, #3b73ff, #8245e5);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+.map-spawn-button:hover {
+    transition: 0.3s;
+    opacity: 0.8;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px;
 }
