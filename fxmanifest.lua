@@ -10,6 +10,8 @@ description 'Simple character selection for ND Core.'
 version 'pre-release'
 
 files {
+    'images/**',
+    'ui/map.jpg',
 	'ui/index.html',
 	'ui/script.js',
 	'ui/style.css'
