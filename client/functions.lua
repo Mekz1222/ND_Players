@@ -168,9 +168,6 @@ function playOutro(ped)
     TaskPlayAnim(ped, animDict, 'outro', 8.0, 0.0, -1, 0.0, 0, false, false, false)
     Wait(6500)
     DoScreenFadeOut(1000)
-    repeat Wait(0) until IsScreenFadedOut()
-    cleanup()
-    DoScreenFadeIn(1000)
 end
 
 -- Spawn board model.
@@ -204,12 +201,12 @@ function cleanup()
     for i = 1, #peds do
         DeletePed(peds[i])
     end
-    SetNuiFocus(false, false)
+    display = false
+    SetNuiFocus(display, display)
     SendNUIMessage({
         type = 'display',
-        status = false
+        status = display
     })
-    display = false
     SetCamActive(cam, false)
     RenderScriptCams(false, false, 0, true, true)
     DestroyAllCams(true)
