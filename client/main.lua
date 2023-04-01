@@ -14,11 +14,23 @@ RegisterNUICallback('action', function(data, cb)
         -- TriggerServerEvent("ND:deleteCharacter", selected)
     elseif data.action == 'play' then
         if findPedById(selected) then
+            TriggerServerEvent("ND:setCharacterOnline", selected)
             print('Action', 'play as character', selected)
             local soundId = GetSoundId()
             PlaySoundFrontend(soundId, 'BASE_JUMP_PASSED', 'HUD_AWARDS', true)
             ReleaseSoundId(soundId)
+            local character = NDCore.Functions.GetSelectedCharacter()
+            CreateThread(function()
+                Wait(4000)
+                SendNUIMessage({
+                    type = "map",
+                    status = true,
+                    markers = Config.spawns,
+                    job = character.job
+                })
+            end)
             playOutro(findPedById(selected))
+            SetNuiFocus(true, true)
         end
     end
 end)
