@@ -68,3 +68,15 @@ AddEventHandler('onResourceStop', function(resourceName)
     DestroyAllCams(true)
 end)
 
+RegisterNUICallback("spawn", function(data)
+    cleanup()
+    local coords = Config.spawns[data.type] and Config.spawns[data.type][data.id+1] and Config.spawns[data.type][data.id+1].coords
+    print(coords)
+    if not coords then return end
+    local ped = PlayerPedId()
+    SetEntityCoords(ped, coords.x, coords.y, coords.z)
+    Wait(2500)
+    FreezeEntityPosition(ped, false)
+    Wait(1500)
+    DoScreenFadeIn(1000)
+end)
