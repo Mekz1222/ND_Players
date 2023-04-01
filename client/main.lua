@@ -1,3 +1,4 @@
+NDCore = exports["ND_Core"]:GetCoreObject()
 local display = false
 selected = 0
 
