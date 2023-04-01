@@ -55,11 +55,3 @@ AddEventHandler('onResourceStop', function(resourceName)
     DestroyAllCams(true)
 end)
 
-RegisterCommand(Config.frameworkCommand, function()
-    display = not display
-    SetNuiFocus(display, display)
-    SendNUIMessage({
-        type = 'display',
-        status = display
-    })
-end, false)
