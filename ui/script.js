@@ -202,7 +202,10 @@ $("#creationForm").submit(function(event) {
     const gender = $("#characterGender").val();
 
     $.post(`https://${GetParentResourceName()}/action`, JSON.stringify({ action: "new", firstName, lastName, dob, gender }), function() {
-        $("#characterFN, #characterLN, #characterDOB, #characterGender").val("");
+        $("#creationForm").fadeOut();
+        setTimeout(() => {
+            $("#characterFN, #characterLN, #characterDOB, #characterGender").val("");
+        }, 500);
     })
     .fail(function(error) {
         console.error(error);

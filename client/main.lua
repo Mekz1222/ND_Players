@@ -119,7 +119,6 @@ RegisterNUICallback("spawn", function(data)
     DestroyAllCams(true)
 
     local coords = Config.spawns[data.type] and Config.spawns[data.type][data.id+1] and Config.spawns[data.type][data.id+1].coords
-    print(coords)
     if not coords then return end
 
     local character = NDCore.Functions.GetSelectedCharacter()
