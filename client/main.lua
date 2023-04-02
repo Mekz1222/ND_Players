@@ -116,10 +116,20 @@ end)
 
 RegisterNUICallback("spawn", function(data)
     cleanup()
+    DestroyAllCams(true)
+
     local coords = Config.spawns[data.type] and Config.spawns[data.type][data.id+1] and Config.spawns[data.type][data.id+1].coords
     print(coords)
     if not coords then return end
+
+    local character = NDCore.Functions.GetSelectedCharacter()
+    exports["fivem-appearance"]:setPlayerModel(character.data.clothing.model)
+
     local ped = PlayerPedId()
+    exports["fivem-appearance"]:setPedTattoos(ped, character.data.clothing.tattoos)
+    exports["fivem-appearance"]:setPedAppearance(ped, character.data.clothing.appearance)
+
+    FreezeEntityPosition(ped, true)
     SetEntityCoords(ped, coords.x, coords.y, coords.z)
     Wait(2500)
     FreezeEntityPosition(ped, false)
