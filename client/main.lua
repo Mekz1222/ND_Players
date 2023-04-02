@@ -57,7 +57,7 @@ RegisterNUICallback('action', function(data, cb)
     elseif data.action == 'delete' then
         local ped = findPedById(selected)
         DeletePed(ped)
-        -- TriggerServerEvent("ND:deleteCharacter", selected)
+        TriggerServerEvent("ND:deleteCharacter", selected)
     elseif data.action == 'play' then
         if findPedById(selected) then
             TriggerServerEvent("ND:setCharacterOnline", selected)
