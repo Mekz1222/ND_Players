@@ -7,7 +7,53 @@ selected = 0
 RegisterNUICallback('action', function(data, cb)
     cb(1)
     if data.action == 'new' then
-        TriggerServerEvent('ND_CharactersV2:createCharacter', data)
+        DoScreenFadeOut(1000)
+        Wait(1000)
+        CreateThread(function()
+            cleanup()
+            DestroyAllCams(true)
+        end)
+        local ped = PlayerPedId()
+        SetEntityCoords(ped, 402.84, -996.83, -100.00)
+        SetEntityHeading(182.28)
+        FreezeEntityPosition(ped, false)
+        Wait(1000)
+        DoScreenFadeIn(1000)
+
+        local config = {
+            ped = true,
+            headBlend = true,
+            faceFeatures = true,
+            headOverlays = true,
+            components = true,
+            props = true,
+            tattoos = false
+        }
+        exports["fivem-appearance"]:startPlayerCustomization(function(appearance)
+            if appearance then
+                TriggerServerEvent("ND_CharactersV2:createCharacter", data)
+                local ped = PlayerPedId()
+                local clothing = {
+                    model = GetEntityModel(ped),
+                    tattoos = exports["fivem-appearance"]:getPedTattoos(ped),
+                    appearance = exports["fivem-appearance"]:getPedAppearance(ped)
+                }
+                DoScreenFadeOut(1000)
+                Wait(1000)
+                local character = NDCore.Functions.GetSelectedCharacter()
+                SendNUIMessage({
+                    type = "map",
+                    status = true,
+                    markers = Config.spawns,
+                    job = character.job
+                })
+                SetNuiFocus(true, true)
+                Wait(4000)
+                TriggerServerEvent("ND:updateClothes", clothing)
+            else
+                init()
+            end
+        end, config)
     elseif data.action == 'delete' then
         local ped = findPedById(selected)
         DeletePed(ped)
