@@ -23,7 +23,7 @@ function handleMarkerClick(marker, choice) {
     selectedMarker.id = marker.data("id");
     selectedMarker.type = marker.data("type");
     selectedMarker.image = marker.data("image");
-    $(".map-spawn > div > img").attr("src", `../images/${selectedMarker.image}`);
+    $(".map-spawn > div > img").attr("src", `../data/images/${selectedMarker.image}`);
     $(".map-spawn").fadeIn();
 
     if (previousMarker) {
@@ -62,13 +62,16 @@ $(document).click(function(event) {
 window.addEventListener("message", function(event) {
     const item = event.data;
 
-    if (item.type === "display") {
+    if (item.type === "selector") {
         if (item.status) {
             $overlay.fadeIn("fast");
         } else {
             $overlay.fadeOut("fast");
             $lineup.hide();
-            $(".confirmDelete, .creationForm, .map-display").fadeOut();
+            $(".confirmDelete, .creationForm").fadeOut();
+            setTimeout(() => {
+                $(".map-display").fadeOut();
+            }, 1500);
         }
     }
 
