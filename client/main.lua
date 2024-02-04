@@ -94,6 +94,7 @@ end)
 local function createNewCharacter()
     if not selector.characterAmount or selector.characterAmount >= (config.characterLimit or 4) then
         return lib.notify({
+            id = "max_character_reached",
             label = "Max character amount reached",
             position = "top"
         })
@@ -164,6 +165,7 @@ end
 local function deleteCharacter()
     if not selector.selected then
         return lib.notify({
+            id = "select_character_delete",
             title = "Select a character to delete",
             position = "top"
         })
@@ -191,6 +193,7 @@ end
 local function playAsCharacter()
     if not selector.selected then
         return lib.notify({
+            id = "select_characer_play",
             title = "Select or create a character to play",
             position = "top"
         })
