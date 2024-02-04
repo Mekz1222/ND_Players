@@ -68,7 +68,7 @@ window.addEventListener("message", function(event) {
         } else {
             $overlay.fadeOut("fast");
             $lineup.hide();
-            $(".confirmDelete, .creationForm").fadeOut();
+            $(".creationForm").fadeOut();
             setTimeout(() => {
                 $(".map-display").fadeOut();
             }, 1500);
@@ -92,7 +92,7 @@ window.addEventListener("message", function(event) {
 
     if (item.type === "map") {
         if (item.status) {
-            $(".overlay, .creationForm, .confirmDelete").hide();
+            $(".overlay, .creationForm").hide();
             $(".map-display").fadeIn("fast");
 
             // size of the image on the ui.
@@ -159,10 +159,6 @@ $(".interactionButton").click(function() {
         $overlay.fadeOut("fast");
         $("#creationForm").fadeIn("fast");
         return;
-    } else if (action == "delete") {
-        $overlay.fadeOut("fast");
-        $(".confirmDelete").fadeIn("fast");
-        return;
     };
 
     $.post(`https://${GetParentResourceName()}/action`, JSON.stringify({
@@ -174,25 +170,6 @@ $(".interactionButton").click(function() {
 $(".creationCancel").click(function() {
     $overlay.fadeIn("fast");
     $("#creationForm").fadeOut("fast");
-});
-
-// cancel character delete
-$(".cancelDeleteBtn").click(function() {
-    $overlay.fadeIn("fast");
-    $(".confirmDelete").fadeOut("fast");
-});
-
-// confirm character delete
-$(".confirmDeleteBtn").click(function() {
-    $overlay.fadeIn("fast");
-    $(".confirmDelete").fadeOut("fast");
-
-    $.post(`https://${GetParentResourceName()}/action`, JSON.stringify({ action: "delete" }), function() {
-        $(`#lineup${selected}`).hide();
-    })
-    .fail(function(error) {
-        console.error(error);
-    });
 });
 
 // confirm character creator

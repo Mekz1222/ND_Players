@@ -93,12 +93,20 @@ local function createNewCharacter()
 end
 
 local function deleteCharacter()
+    local alert = lib.alertDialog({
+        header = "Delete character?",
+        content = ("Are you sure you want to permanantly delete the character by id [%s] this action is irreversible."):format(selector.selected),
+        centered = true,
+        cancel = true
+    })
+
+    if alert ~= "confirm" then return end
     local ped = selector:findPedById(selector.selected)
-    -- probaby add comfirm screen here.
-    
+
     if ped and DoesEntityExist(ped) then
         DeletePed(ped)
     end
+    
     TriggerServerEvent("ND:deleteCharacter", selector.selected)
 end
 
