@@ -9,6 +9,7 @@ function creator:start(input, exitCallback)
     elseif input[4] == "female" and GetEntityModel(ped) ~= `mp_f_freemode_01` then
         exports["fivem-appearance"]:setPlayerModel("mp_f_freemode_01")
     end
+    Wait(500)
 
     local function customize(appearance)
         if not appearance then
@@ -32,7 +33,7 @@ function creator:start(input, exitCallback)
     end
     
     exports["fivem-appearance"]:startPlayerCustomization(customize, {
-        ped = true,
+        ped = false,
         headBlend = true,
         faceFeatures = true,
         headOverlays = true,
