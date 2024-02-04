@@ -89,10 +89,68 @@ RegisterNUICallback("select", function(data)
 end)
 
 local function createNewCharacter()
-    
+    local year, month, day = GetLocalTime()
+
+    if month < 10 then
+        month = "0" .. month
+    end
+
+    if day < 10 then
+        day = "0" .. day
+    end
+
+    local input = lib.inputDialog("Create a new character", {
+        {
+            type = "input",
+            label = "First name",
+            placeholder = "John",
+            required = true,
+            min = 3,
+            max = 16
+        },
+        {
+            type = "input",
+            label = "Last name",
+            placeholder = "Doe",
+            required = true,
+            min = 3,
+            max = 16
+        },
+        {
+            type = "date",
+            label = "Date of birth",
+            icon = {"far", "calendar"},
+            format = "DD/MM/YYYY",
+            min = ("%s/%s/%s"):format(day, month, year-100),
+            max = ("%s/%s/%s"):format(day, month, year-18),
+            default = ("%s/%s/%s"):format(day, month, year-25),
+            required = true,
+            returnString = true
+        },
+        {
+            type = "select",
+            label = "Gender",
+            options = {
+                { label = "Male", value = "male" },
+                { label = "Female", value = "female" }
+            },
+            default = "male",
+            required = true
+        }
+    })
+
+    if not input then return end
+    creator:start(input)
 end
 
 local function deleteCharacter()
+    if not selector.selected then
+        return lib.notify({
+            title = "Select a character to delete",
+            position = "top"
+        })
+    end
+
     local alert = lib.alertDialog({
         header = "Delete character?",
         content = ("Are you sure you want to permanantly delete the character by id [%s] this action is irreversible."):format(selector.selected),
@@ -106,11 +164,18 @@ local function deleteCharacter()
     if ped and DoesEntityExist(ped) then
         DeletePed(ped)
     end
-    
+
     TriggerServerEvent("ND:deleteCharacter", selector.selected)
 end
 
 local function playAsCharacter()
+    if not selector.selected then
+        return lib.notify({
+            title = "Select or create a character to play",
+            position = "top"
+        })
+    end
+
     selector:select()
     SetNuiFocus(true, true)
 

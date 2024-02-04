@@ -68,7 +68,6 @@ window.addEventListener("message", function(event) {
         } else {
             $overlay.fadeOut("fast");
             $lineup.hide();
-            $(".creationForm").fadeOut();
             setTimeout(() => {
                 $(".map-display").fadeOut();
             }, 1500);
@@ -92,7 +91,7 @@ window.addEventListener("message", function(event) {
 
     if (item.type === "map") {
         if (item.status) {
-            $(".overlay, .creationForm").hide();
+            $(".overlay").hide();
             $(".map-display").fadeIn("fast");
 
             // size of the image on the ui.
@@ -154,40 +153,7 @@ window.addEventListener("message", function(event) {
 // interaction buttons at the bottom, can be left, right, new, delete.
 $(".interactionButton").click(function() {
     const action = $(this).data("action");
-
-    if (action == "new") {
-        $overlay.fadeOut("fast");
-        $("#creationForm").fadeIn("fast");
-        return;
-    };
-
     $.post(`https://${GetParentResourceName()}/action`, JSON.stringify({
         action: action
     }));
-});
-
-// cancel character creator
-$(".creationCancel").click(function() {
-    $overlay.fadeIn("fast");
-    $("#creationForm").fadeOut("fast");
-});
-
-// confirm character creator
-$("#creationForm").submit(function(event) {
-    event.preventDefault();
-
-    const firstName = $("#characterFN").val();
-    const lastName = $("#characterLN").val();
-    const dob = $("#characterDOB").val();
-    const gender = $("#characterGender").val();
-
-    $.post(`https://${GetParentResourceName()}/action`, JSON.stringify({ action: "new", firstName, lastName, dob, gender }), function() {
-        $("#creationForm").fadeOut();
-        setTimeout(() => {
-            $("#characterFN, #characterLN, #characterDOB, #characterGender").val("");
-        }, 500);
-    })
-    .fail(function(error) {
-        console.error(error);
-    });
 });

@@ -22,8 +22,9 @@ body {
     width: 10vw;
     height: 5%;
     border-radius: 35px;
-    background-color: #242526b9;
+    background-color: rgb(26, 27, 30);
     white-space: nowrap;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 .interactionButton {
     height: 100%;
@@ -34,93 +35,22 @@ body {
     transition: opacity 0.3s;
 }
 .interactionPlay {
-    color: rgb(0, 255, 106);
+    color: rgba(0, 255, 106, 0.7);
 }
 .interactionNew {
-    color: rgb(0, 119, 255);
+    color: rgba(0, 119, 255, 0.7);
 }
 .interactionDelete {
-    color: rgb(245, 43, 43);
+    color: rgba(245, 43, 43, 0.7);
 }
 
-#creationForm {
-    display: none;
-    position: absolute;
-    margin: auto;
-    bottom: 15vh;
-    right: 0;
-    left: 0;
-    width: 20vw;
-    height: 20vh;
-    background-color: #242526b9;
-    border-radius: 20px;
-}
-.createCharacterText {
-    position: absolute;
-    margin: auto;
-    top: 5%;
-    left: 0;
-    right: 0;
-    color: #ccc;
-    text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
-}
-.creationInfo {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    position: absolute;
-    margin: auto;
-    top: 15%;
-    right: 0;
-    left: 0;
-    height: 30%;
-}
-.characterInput {
-    color: #ccc;
-    padding: 2%;
-    margin: 8%;
-    background-color: rgba(0, 0, 0, 0);
-    outline: none;
-    border: none;
-    border-bottom: 2px #ccc solid;
-    border-radius: 5px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-.characterInputOption {
-    color: white;
-    background-color: #3b3b3b;
-}
-input {
-    color-scheme: dark;
-}
-.creationCreate {
-    outline: none;
-    border: none;
-    border-radius: 5px;
-    margin: 5%;
-    height: 3vh;
-    background-color: rgb(0, 119, 255);
-    color: #ccc;
-    transition: opacity 0.3s;
-}
-.creationCancel {
-    outline: none;
-    border: none;
-    border-radius: 5px;
-    margin: 5%;
-    height: 3vh;
-    background-color: rgb(245, 43, 43);
-    color: #ccc;
-    transition: opacity 0.3s;
-}
 
-.interactionButton:hover, .creationCancel:hover, .creationCreate:hover {
+.interactionButton:hover {
     transition: opacity 0.1s;
     opacity: 0.6;
     cursor: pointer;
 }
-.interactionButton:active, .creationCancel:active, .creationCreate:active {
+.interactionButton:active {
     transition: opacity 0.1s;
     opacity: 1;
 }
