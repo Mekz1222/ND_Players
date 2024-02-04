@@ -1,6 +1,8 @@
 :root {
     --map-width: 50%;
     --markers-height: 985px;
+    /* --gradient: linear-gradient(to right, #3b73ff, #8245e5); */
+    --gradient: linear-gradient(to right, #3b73ff, #304be9);
 }
 
 body {
@@ -179,7 +181,7 @@ body {
 .map-choices::before {
     display: inline-block;
     content: "Select your spawn location";
-    background-image: linear-gradient(to right, #3b73ff, #8245e5);
+    background-image: var(--gradient);
     color: white;
     font-family: 'Roboto', sans-serif;
     padding: 2% 5%;
@@ -191,7 +193,7 @@ body {
     background-image: linear-gradient(to right, rgba(59, 59, 59, 0.8), rgba(39, 39, 39, 0.8));
 }
 .map-choices > div.choice-active {
-    background-image: linear-gradient(to right, #3b73ff, #8245e5);
+    background-image: var(--gradient);
     color: white;
     transform: scale(1.05);
     box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px;
@@ -240,7 +242,7 @@ body {
     border: none;
     outline: none;
     border-radius: 10px;
-    background: linear-gradient(to right, #3b73ff, #8245e5);
+    background: var(--gradient);
     box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
     cursor: pointer;
     transition: 0.5s;
