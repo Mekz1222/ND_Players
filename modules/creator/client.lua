@@ -28,6 +28,7 @@ function creator:start(input, exitCallback)
         
         Wait(150)
         DoScreenFadeIn(0)
+        TriggerServerEvent("ND_Players:updateBucket", false)
     end
     
     exports["fivem-appearance"]:startPlayerCustomization(customize, {
