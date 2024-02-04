@@ -57,7 +57,7 @@ RegisterNUICallback("spawn", function(data)
     exports["fivem-appearance"]:setPlayerModel(clothing.model)
 
     local ped = PlayerPedId()
-    exports["fivem-appearance"]:setPedAppearance(ped, clothing.appearance)
+    exports["fivem-appearance"]:setPedAppearance(ped, clothing.appearance or clothing)
 
     teleport(ped, coords, false)
     FreezeEntityPosition(ped, false)
