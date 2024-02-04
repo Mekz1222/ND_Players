@@ -8,6 +8,12 @@ local config = lib.load("data.configuration") or {
 
 NDCore.enableMultiCharacter(true)
 
+RegisterNetEvent("ND_Players:delete", function(characterId)
+    local src = source
+    local player = NDCore.fetchCharacter(characterId, src)
+    return player and player.delete()
+end)
+
 RegisterNetEvent("ND_Players:select", function(id)
     local src = source
     NDCore.setActiveCharacter(src, tonumber(id))
