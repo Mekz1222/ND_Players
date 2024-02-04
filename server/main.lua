@@ -13,7 +13,7 @@ RegisterNetEvent("ND_Players:select", function(id)
     NDCore.setActiveCharacter(src, tonumber(id))
 end)
 
-RegisterNetEvent("ND_Players:new", function(data)
+RegisterNetEvent("ND_Players:new", function(data, clothing)
     local src = source
     local count = 0
     local characters = NDCore.fetchAllCharacters(src)
@@ -22,18 +22,21 @@ RegisterNetEvent("ND_Players:new", function(data)
         count += 1
     end
 
-    if count >= config.characterLimit then return end
+    if not data or count >= config.characterLimit then return end
 
     local player = NDCore.newCharacter(src, {
-        firstname = data.firstName,
-        lastname = data.lastName,
-        dob = data.dob,
-        gender = data.gender,
+        firstname = data[1],
+        lastname = data[2],
+        dob = data[3],
+        gender = data[4],
         cash = config.startingMoney.cash,
         bank = config.startingMoney.bank,
+        metadata = {
+            clothing = clothing or {}
+        }
     })
 
-    NDCore.setActiveCharacter(src, tonumber(id))
+    NDCore.setActiveCharacter(src, player.id)
 end)
 
 lib.callback.register("ND_Players:fetchCharacters", function(source)

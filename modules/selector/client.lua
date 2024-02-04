@@ -50,9 +50,17 @@ function selector:stop()
             DeletePed(ped)
         end
     end
+
+    self.peds = {}
+    self.linedUp = {}
+    self.selected = nil
 end
 
 function selector:start()
+    self.peds = {}
+    self.linedUp = {}
+    self.selected = nil
+    
     lib.callback("ND_Players:fetchCharacters", false, function(characters)
         local lineup = 0
         self.linedUp = {}
@@ -70,6 +78,8 @@ function selector:start()
                 ped = dummyPed
             }
         end
+
+        self.characterAmount = lineup
 
         Wait(1000)
         DoScreenFadeIn(1000)

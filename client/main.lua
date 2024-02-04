@@ -2,6 +2,7 @@ local spawns = require "data.spawns"
 local camera = require "modules.camera.client"
 local creator = require "modules.creator.client"
 local selector = require "modules.selector.client"
+local config = require "data.configuration"
 
 local function teleport(ped, coords, withVehicle)
     DoScreenFadeOut(500)
@@ -89,6 +90,13 @@ RegisterNUICallback("select", function(data)
 end)
 
 local function createNewCharacter()
+    if not selector.characterAmount or selector.characterAmount >= (config.characterLimit or 4) then
+        return lib.notify({
+            label = "Max character amount reached",
+            position = "top"
+        })
+    end
+
     local year, month, day = GetLocalTime()
 
     if month < 10 then
@@ -140,7 +148,15 @@ local function createNewCharacter()
     })
 
     if not input then return end
-    creator:start(input)
+
+    teleport(cache.ped, vec4(402.84, -996.83, -100.00, 182.28))
+    camera:delete()
+    selector:stop()
+    
+    creator:start(input, function()
+        Wait(1000)
+        init(cache.ped)
+    end)
 end
 
 local function deleteCharacter()
@@ -159,13 +175,15 @@ local function deleteCharacter()
     })
 
     if alert ~= "confirm" then return end
+    SendNUIMessage({ type = "deleteCharacter" })
+
     local ped = selector:findPedById(selector.selected)
 
     if ped and DoesEntityExist(ped) then
         DeletePed(ped)
     end
 
-    TriggerServerEvent("ND:deleteCharacter", selector.selected)
+    TriggerServerEvent("ND_Players:delete", selector.selected)
 end
 
 local function playAsCharacter()
@@ -175,6 +193,8 @@ local function playAsCharacter()
             position = "top"
         })
     end
+
+    SendNUIMessage({ type = "removeLineup" })
 
     selector:select()
     SetNuiFocus(true, true)

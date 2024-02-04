@@ -62,24 +62,24 @@ body {
     position: absolute;
     margin: auto;
     top: 32%;
-    width: 8%;
-    height: 35%;
+    width: 10%;
+    height: 40%;
     /* background-color: rgba(255, 0, 0, 0.1); */
 }
 .lineupCharacter:hover {
     cursor: pointer;
 }
 #lineup1 {
-    right: 24.5%;
+    right: 23.5%;
 }
 #lineup2 {
-    right: 39.5%;
+    right: 37%;
 }
 #lineup3 {
-    left: 39.5%;
+    left: 36.5%;
 }
 #lineup4 {
-    left: 24.5%;
+    left: 23.5%;
 }
 
 

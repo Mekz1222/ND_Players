@@ -68,6 +68,7 @@ window.addEventListener("message", function(event) {
         } else {
             $overlay.fadeOut("fast");
             $lineup.hide();
+            $lineup.empty();
             setTimeout(() => {
                 $(".map-display").fadeOut();
             }, 1500);
@@ -87,6 +88,16 @@ window.addEventListener("message", function(event) {
                 lineup: selected
             }));
         });
+
+        $lineup.show();
+    }
+
+    if (item.type == "removeLineup") {
+        $lineup.empty();
+    }
+
+    if (item.type === "deleteCharacter") {
+        $(`#lineup${selected}`).remove();
     }
 
     if (item.type === "map") {
@@ -124,7 +135,7 @@ window.addEventListener("message", function(event) {
                     });
                 }
             }
-            if (markers[item.job]) {
+            if (item.job && markers[item.job]) {
                 for (let marker in markers[item.job]) {
                 
                     const locationX = centerX + ((markers[item.job][marker].coords.x / (12400/100)) / 100) * htmlMapWidth;
