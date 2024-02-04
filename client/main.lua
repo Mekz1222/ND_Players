@@ -199,6 +199,14 @@ local function playAsCharacter()
         })
     end
 
+    local alert = lib.alertDialog({
+        header = "Play as this character?",
+        content = "Are you sure you'd like to start playing as this character?",
+        centered = true,
+        cancel = true
+    })
+
+    if alert ~= "confirm" then return end
     SendNUIMessage({ type = "selector" })
 
     selector:select()
