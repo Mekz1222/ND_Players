@@ -92,10 +92,6 @@ window.addEventListener("message", function(event) {
         $lineup.show();
     }
 
-    if (item.type == "removeLineup") {
-        $lineup.empty();
-    }
-
     if (item.type === "deleteCharacter") {
         $(`#lineup${selected}`).remove();
     }

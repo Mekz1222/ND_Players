@@ -196,7 +196,7 @@ local function playAsCharacter()
         })
     end
 
-    SendNUIMessage({ type = "removeLineup" })
+    SendNUIMessage({ type = "selector" })
 
     selector:select()
     SetNuiFocus(true, true)
