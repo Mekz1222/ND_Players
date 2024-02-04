@@ -29,8 +29,7 @@ local function createSelectPed(clothing, location)
     lib.requestModel(model)
 
     local dummyPed = CreatePed(26, model, location.x, location.y, location.z, location.w, false, false)
-    exports["fivem-appearance"]:setPedAppearance(dummyPed, clothing.appearance)
-
+    exports["fivem-appearance"]:setPedAppearance(dummyPed, clothing.appearance or clothing)
     SetEntityAlpha(dummyPed, 200, false)
 
     return dummyPed
