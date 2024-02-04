@@ -8,6 +8,11 @@ local config = lib.load("data.configuration") or {
 
 NDCore.enableMultiCharacter(true)
 
+RegisterNetEvent("ND_Players:updateBucket", function(update)
+    local src = source
+    SetPlayerRoutingBucket(src, update and src or 0)
+end)
+
 RegisterNetEvent("ND_Players:delete", function(characterId)
     local src = source
     local player = NDCore.fetchCharacter(characterId, src)

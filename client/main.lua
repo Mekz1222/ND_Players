@@ -15,6 +15,7 @@ local function teleport(ped, coords, withVehicle)
 end
 
 local function init(ped)
+    TriggerServerEvent("ND_Players:updateBucket", true)
     teleport(ped, vec3(417.27, -998.65, -99.40), false)
 
     CreateThread(function()
@@ -37,6 +38,7 @@ end)
 
 AddEventHandler("onResourceStop", function(resourceName)
     if cache.resource ~= resourceName then return end
+    TriggerServerEvent("ND_Players:updateBucket", false)
     camera:delete()
     selector:stop()
 end)
@@ -208,6 +210,7 @@ local function playAsCharacter()
     })
 
     DoScreenFadeIn(0)
+    TriggerServerEvent("ND_Players:updateBucket", false)
 end
 
 RegisterNUICallback("action", function(data)
