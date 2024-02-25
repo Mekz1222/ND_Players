@@ -24,6 +24,11 @@ return {
             name = "LSIA",
             coords = vec3(-1039.65, -2741.02, 12.89),
             image = "los_santos_international_airport.png"
+        },
+        {
+            name = "The Richman Hotel",
+            coords = vec4(-1276.4147, 311.1797, 65.5118, 147.5861),
+            image = "the_richman_hotel.png"
         }
     },
 }
