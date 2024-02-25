@@ -1,3 +1,6 @@
+
+local startingItems = lib.load("data.items")
+
 local config = lib.load("data.configuration") or {
     characterLimit = 4,
     startingMoney = {
@@ -34,6 +37,16 @@ lib.callback.register("ND_Players:new", function(src, data, clothing)
 
     if not data or count >= config.characterLimit then return end
 
+    local inventory = {}
+    for slot=1, #startingItems do
+        local item = startingItems[slot]
+        inventory[slot] = {
+            name = item[1],
+            count = item[2],
+            slot = slot
+        }
+    end
+
     local player = NDCore.newCharacter(src, {
         firstname = data[1],
         lastname = data[2],
@@ -41,6 +54,7 @@ lib.callback.register("ND_Players:new", function(src, data, clothing)
         gender = data[4],
         cash = config.startingMoney.cash,
         bank = config.startingMoney.bank,
+        inventory = inventory,
         metadata = {
             clothing = clothing or {}
         }
