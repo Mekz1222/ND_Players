@@ -1,5 +1,49 @@
 local creator = {}
 local spawns = require("data.spawns")
+local spawnCallbacks = {}
+
+local function manageSpawn(access, cb)
+    spawnCallbacks[#spawnCallbacks+1] = {
+        access = access,
+        cb = cb
+    }
+end
+
+exports("manageSpawn", manageSpawn)
+
+manageSpawn("DEFAULT", function(player)
+    local location = player.metadata?.location
+    if not location then return end
+    return {
+        name = "Last location",
+        coords = vec4(location.x, location.y, location.z, location.w),
+        image = "last_location.png"
+    }
+end)
+
+function creator:openMap(player)
+    local spawnLocations = lib.table.deepclone(spawns)
+    for i=1, #spawnCallbacks do
+        local item = spawnCallbacks[i]
+        local access = spawnLocations[item.access]
+        if not access then goto next end
+
+        local value = item.cb(player)
+        if value then
+            access[#access+1] = value
+        end
+
+        ::next::
+    end
+
+    SetNuiFocus(true, true)
+    SendNUIMessage({
+        type = "map",
+        status = true,
+        markers = spawnLocations,
+        job = player.job
+    })
+end
 
 function creator:start(input, exitCallback)
     local ped = cache.ped
@@ -17,15 +61,10 @@ function creator:start(input, exitCallback)
         end
 
         DoScreenFadeOut(300)
-        TriggerServerEvent("ND_Players:new", input, appearance)
-        
         Wait(200)
-        SetNuiFocus(true, true)
-        SendNUIMessage({
-            type = "map",
-            status = true,
-            markers = spawns
-        })
+
+        local player = lib.callback.await("ND_Players:new", false, input, appearance)
+        self:openMap(player)
         
         Wait(150)
         DoScreenFadeIn(0)

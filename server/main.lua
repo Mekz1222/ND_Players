@@ -24,8 +24,7 @@ RegisterNetEvent("ND_Players:select", function(id)
     NDCore.setActiveCharacter(src, tonumber(id))
 end)
 
-RegisterNetEvent("ND_Players:new", function(data, clothing)
-    local src = source
+lib.callback.register("ND_Players:new", function(src, data, clothing)
     local count = 0
     local characters = NDCore.fetchAllCharacters(src)
 
@@ -47,7 +46,7 @@ RegisterNetEvent("ND_Players:new", function(data, clothing)
         }
     })
 
-    NDCore.setActiveCharacter(src, player.id)
+    return NDCore.setActiveCharacter(src, player.id)
 end)
 
 lib.callback.register("ND_Players:fetchCharacters", function(source)

@@ -213,12 +213,7 @@ local function playAsCharacter()
     SetNuiFocus(true, true)
 
     local player = NDCore.getPlayer()
-    SendNUIMessage({
-        type = "map",
-        status = true,
-        markers = spawns,
-        job = player.job
-    })
+    creator:openMap(player)
 
     DoScreenFadeIn(0)
     TriggerServerEvent("ND_Players:updateBucket", false)
