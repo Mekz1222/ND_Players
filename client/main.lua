@@ -1,4 +1,3 @@
-local spawns = require "data.spawns"
 local camera = require "modules.camera.client"
 local creator = require "modules.creator.client"
 local selector = require "modules.selector.client"
@@ -11,7 +10,7 @@ local function teleport(ped, coords, withVehicle)
     
     lib.hideTextUI()
     StartPlayerTeleport(cache.playerId, coords.x, coords.y, coords.z, coords.w, withVehicle, true, true)
-    while IsPlayerTeleportActive() or not HasCollisionLoadedAroundEntity(ped) do Wait(10) end
+    while IsPlayerTeleportActive() or not HasCollisionLoadedAroundEntity(cache.ped) do Wait(10) end
 end
 
 local function init(ped)
@@ -47,6 +46,9 @@ RegisterNUICallback("spawn", function(data)
     camera:delete()
     selector:stop()
 
+    local spawns = creator.spawns
+    if not spawns then return end
+    
     local coords = spawns?[data.type]?[data.id+1]?.coords
     if not coords then return end
 
@@ -54,7 +56,7 @@ RegisterNUICallback("spawn", function(data)
     if not player then return end
 
     local clothing = player.metadata.clothing
-    exports["fivem-appearance"]:setPlayerModel(clothing.model)
+    exports["fivem-appearance"]:setPlayerModel(clothing.model or clothing.appearance.model)
 
     local ped = PlayerPedId()
     exports["fivem-appearance"]:setPedAppearance(ped, clothing.appearance or clothing)
@@ -109,7 +111,7 @@ local function createNewCharacter()
     if day < 10 then
         day = "0" .. day
     end
-
+    
     local input = lib.inputDialog("Create a new character", {
         {
             type = "input",

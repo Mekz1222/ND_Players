@@ -36,6 +36,8 @@ function creator:openMap(player)
         ::next::
     end
 
+    self.spawns = spawnLocations
+
     SetNuiFocus(true, true)
     SendNUIMessage({
         type = "map",
