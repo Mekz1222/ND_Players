@@ -11,6 +11,7 @@ local function teleport(ped, coords, withVehicle)
     lib.hideTextUI()
     StartPlayerTeleport(cache.playerId, coords.x, coords.y, coords.z, coords.w, withVehicle, true, true)
     while IsPlayerTeleportActive() or not HasCollisionLoadedAroundEntity(cache.ped) do Wait(10) end
+    SetGameplayCamRelativeHeading(0)
 end
 
 local function init(ped)
