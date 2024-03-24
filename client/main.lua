@@ -98,7 +98,7 @@ local function createNewCharacter()
     if not selector.characterAmount or selector.characterAmount >= (config.characterLimit or 4) then
         return lib.notify({
             id = "max_character_reached",
-            label = "Max character amount reached",
+            title = "Max character amount reached",
             position = "top"
         })
     end
