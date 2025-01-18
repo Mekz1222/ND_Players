@@ -4,19 +4,59 @@ return {
         interval = 60,
         amount = 75
     },
-    ["mechanic"] = {
+    ["sahp"] = {
+        enabled = true,
+        interval = 24,
+        amount = 700
+    },
+    ["lspd"] = {
+        enabled = true,
+        interval = 24,
+        amount = 600
+    },
+    ["bcso"] = {
+        enabled = true,
+        interval = 24,
+        amount = 500
+    },
+    ["lsfd"] = {
+        enabled = true,
+        interval = 24,
+        amount = 800
+    },
+    ["bennys"] = {
         enabled = true,
         interval = 60,
         amount = 200
     },
-    ["lspd"] = {
+    ["burgershot"] = {
         enabled = true,
-        interval = 60,
-        amount = 350
+        interval = 30,
+        amount = 200
     },
-    ["lsfd"] = {
+    ["bahamamamas"] = {
         enabled = true,
-        interval = 60,
-        amount = 350
+        interval = 30,
+        amount = 200
+    },
+    ["vanillaunicorn"] = {
+        enabled = true,
+        interval = 30,
+        amount = 200
+    },
+    ["cigarshop"] = {
+        enabled = true,
+        interval = 30,
+        amount = 200
+    },
+    ["flywheels"] = {
+        enabled = true,
+        interval = 30,
+        amount = 200
+    },
+    ["wiwangskybar"] = {
+        enabled = true,
+        interval = 30,
+        amount = 200
     }
 }
