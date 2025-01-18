@@ -1,9 +1,9 @@
 return {
-    characterLimit = 4,
+    characterLimit = 4, -- current max is 4
 
     startingMoney = {
-        cash = 2500,
-        bank = 8000
+        cash = 200,
+        bank = 1500
     }
 
 }
