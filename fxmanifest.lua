@@ -10,6 +10,7 @@ description "Simple character selection for ND Core."
 version "1.0.0"
 
 files {
+    "ui/jquery.min.js",
     "ui/map.jpg",
 	"ui/index.html",
 	"ui/script.js",
