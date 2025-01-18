@@ -1,11 +1,10 @@
-
 local startingItems = lib.load("data.items")
 
 local config = lib.load("data.configuration") or {
     characterLimit = 4,
     startingMoney = {
-        cash = 2500,
-        bank = 8000
+        cash = 200,
+        bank = 1500
     }
 }
 
