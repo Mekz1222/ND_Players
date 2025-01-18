@@ -31,4 +31,47 @@ return {
             image = "the_richman_hotel.png"
         }
     },
+    ["lsfd"] = {
+        {
+            name = "Fire Station No1 (Paleto Bay)",
+            coords = vec3(-384.07, 6117.9, 30.48),
+            image = "fire_station_1.png"
+        },
+        {
+            name = "Fire Station No2 (Sandy Shores)",
+            coords = vec3(1691.5, 3597.95, 34.56),
+            image = "fire_station_2.png"
+        },
+        {
+            name = "Fire Station No7 (Los Santos)",
+            coords = vec3(1194.71, -1474.14, 33.86),
+            image = "fire_station_3.png"
+        }
+    },
+    ["sahp"] = {
+        {
+            name = "Mission Row PD",
+            coords = vec3(437.6, -986.6, 29.69),
+            image = "mrpd.png"
+        }
+    },
+    ["lspd"] = {
+        {
+            name = "Mission Row PD",
+            coords = vec3(437.6, -986.6, 29.69),
+            image = "mrpd.png"
+        }
+    },
+    ["bcso"] = {
+        {
+            name = "Sandy Shores Sheriff",
+            coords = vec3(1849.4, 3688.6, 33.27),
+            image = "ssso.png"
+        },
+        {
+            name = "Paleto Bay Sheriff",
+            coords = vec3(-447.2, 6009.4, 30.72),
+            image = "pbso.png"
+        }
+    }
 }
