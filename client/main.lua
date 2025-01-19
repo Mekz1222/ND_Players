@@ -247,3 +247,34 @@ RegisterNUICallback("action", function(data)
         playAsCharacter()
     end
 end)
+
+RegisterNetEvent("ND:characterMenu", function()
+    if source == "" then return end
+    init(cache.ped)
+end)
+
+local allowChangeCommand = true -- this doesn't do anything if config option is set.
+local disabledReason = "can't change character right now!"
+
+exports("allowChangeCommand", function(status, reason)
+    allowChangeCommand = status
+    disabledReason = reason or "can't change character right now!"
+end)
+
+if config.changeCharacterCommand then
+    -- Change character command
+    RegisterCommand(config.changeCharacterCommand, function()
+        if not allowChangeCommand then
+            return TriggerEvent("chat:addMessage", {
+                color = {50, 100, 235},
+                multiline = true,
+                args = {"Error", disabledReason}
+            })
+        end
+
+        init(cache.ped)
+    end, false)
+    
+    -- chat suggestions
+    TriggerEvent("chat:addSuggestion", "/" .. config.changeCharacterCommand, "Change your character.")
+end
