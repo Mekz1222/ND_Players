@@ -2,6 +2,8 @@ local camera = require "modules.camera.client"
 local creator = require "modules.creator.client"
 local selector = require "modules.selector.client"
 local config = require "data.configuration"
+local lastSource = GetResourceKvpInt("ND_Characters:source")
+local lastCharacter = GetResourceKvpInt("ND_Characters:character")
 
 local function teleport(ped, coords, withVehicle)
     DoScreenFadeOut(500)
@@ -15,7 +17,8 @@ local function teleport(ped, coords, withVehicle)
 end
 
 local function init(ped)
-    TriggerServerEvent("ND_Players:updateBucket", true)
+    LocalPlayer.state.hideHud = true
+    lib.callback.await("ND_Players:updateBucketAndUnload", false, true)
     teleport(ped, vec3(417.27, -998.65, -99.40), false)
 
     CreateThread(function()
@@ -27,20 +30,32 @@ end
 
 AddEventHandler("onResourceStart", function(resourceName)
     if cache.resource ~= resourceName then return end
-    Wait(1000)
-    init(cache.ped)
-end)
-
-AddEventHandler("playerSpawned", function()
     Wait(500)
+    
+    if lastSource == cache.serverId and lastCharacter then
+        return TriggerServerEvent("ND_Players:select", lastCharacter)
+    end
+
+    Wait(1500)
     init(cache.ped)
 end)
 
 AddEventHandler("onResourceStop", function(resourceName)
     if cache.resource ~= resourceName then return end
-    TriggerServerEvent("ND_Players:updateBucket", false)
     camera:delete()
     selector:stop()
+    TriggerServerEvent("ND_Players:updateBucket", false)
+
+    local player = NDCore.getPlayer()
+    if player then
+        SetResourceKvpInt("ND_Characters:source", cache.serverId)
+        SetResourceKvpInt("ND_Characters:character", player.id)
+    end
+end)
+
+AddEventHandler("playerSpawned", function()
+    Wait(500)
+    init(cache.ped)
 end)
 
 RegisterNUICallback("spawn", function(data)
@@ -66,6 +81,7 @@ RegisterNUICallback("spawn", function(data)
     FreezeEntityPosition(ped, false)
     Wait(500)
     DoScreenFadeIn(500)
+    LocalPlayer.state.hideHud = false
 end)
 
 RegisterNUICallback("select", function(data)

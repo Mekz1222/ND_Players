@@ -12,6 +12,15 @@ config.salaries = lib.load("data.salaries") or {}
 
 NDCore.enableMultiCharacter(true)
 
+lib.callback.register("ND_Players:updateBucketAndUnload", function(src, update)
+    SetPlayerRoutingBucket(src, update and src or 0)
+
+    if update then
+        local player = NDCore.getPlayer()
+        return player and player.unload()
+    end
+end)
+
 RegisterNetEvent("ND_Players:updateBucket", function(update)
     local src = source
     SetPlayerRoutingBucket(src, update and src or 0)
