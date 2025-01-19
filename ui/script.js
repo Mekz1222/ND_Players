@@ -59,6 +59,24 @@ $(document).click(function(event) {
     }
 });
 
+function createSpawn(marker, markers, job, centerX, centerY, htmlMapWidth, htmlMapHeight) {
+    const locationX = centerX + ((markers[job][marker].coords.x / (12400/100)) / 100) * htmlMapWidth;
+    const locationY = centerY - ((markers[job][marker].coords.y / (12400/100)) / 100) * htmlMapHeight;
+
+    const markerElement = $(`<div data-id="${marker}" data-type="${job}" data-image="${markers[job][marker].image}" class="marker" style="left: ${locationX}px; top: ${locationY}px;"></div>`);
+    const choice = $(`<div>${markers[job][marker].name}</div>`)
+
+    $(".map-markers").append(markerElement);
+    $(".map-choices").append(choice);
+
+    markerElement.click(function() {
+        handleMarkerClick($(this), choice)
+    });
+    choice.click(function() {
+        handleMarkerClick(markerElement, choice)
+    });
+}
+
 window.addEventListener("message", function(event) {
     const item = event.data;
 
@@ -111,44 +129,16 @@ window.addEventListener("message", function(event) {
 
             // add markers for the in game locations.
             const markers = item.markers
+            $(".map-markers, .map-choices").empty();
+
             if (markers.DEFAULT) {
                 for (let marker in markers.DEFAULT) {
-                
-                    const locationX = centerX + ((markers.DEFAULT[marker].coords.x / (12400/100)) / 100) * htmlMapWidth;
-                    const locationY = centerY - ((markers.DEFAULT[marker].coords.y / (12400/100)) / 100) * htmlMapHeight;
-    
-                    const markerElement = $(`<div data-id="${marker}" data-type="DEFAULT" data-image="${markers.DEFAULT[marker].image}" class="marker" style="left: ${locationX}px; top: ${locationY}px;"></div>`);
-                    const choice = $(`<div>${markers.DEFAULT[marker].name}</div>`)
-    
-                    $(".map-markers").append(markerElement);
-                    $(".map-choices").append(choice)
-    
-                    markerElement.click(function() {
-                        handleMarkerClick($(this), choice)
-                    });
-                    choice.click(function() {
-                        handleMarkerClick(markerElement, choice)
-                    });
+                    createSpawn(marker, markers, "DEFAULT", centerX, centerY, htmlMapWidth, htmlMapHeight);
                 }
             }
             if (item.job && markers[item.job]) {
                 for (let marker in markers[item.job]) {
-                
-                    const locationX = centerX + ((markers[item.job][marker].coords.x / (12400/100)) / 100) * htmlMapWidth;
-                    const locationY = centerY - ((markers[item.job][marker].coords.y / (12400/100)) / 100) * htmlMapHeight;
-    
-                    const markerElement = $(`<div data-id="${marker}" data-type="${item.job}" data-image="${markers[item.job][marker].image}" class="marker" style="left: ${locationX}px; top: ${locationY}px;"></div>`);
-                    const choice = $(`<div>${markers[item.job][marker].name}</div>`)
-
-                    $(".map-markers").append(markerElement);
-                    $(".map-choices").append(choice)
-    
-                    markerElement.click(function() {
-                        handleMarkerClick($(this), choice)
-                    });
-                    choice.click(function() {
-                        handleMarkerClick(markerElement, choice)
-                    });
+                    createSpawn(marker, markers, item.job, centerX, centerY, htmlMapWidth, htmlMapHeight);
                 }
             }
         } else {
