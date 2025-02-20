@@ -22,14 +22,14 @@ local function genderAnim(ped)
     return IsPedMale(ped) and "male" or "female"
 end
 
-local function createSelectPed(clothing, location)
-    if not clothing then return end
+local function createSelectPed(skin, location)
+    if not skin then return end
 
-    local model = clothing.model
+    local model = skin.model
     lib.requestModel(model)
-
+    
     local dummyPed = CreatePed(26, model, location.x, location.y, location.z, location.w, false, false)
-    exports["fivem-appearance"]:setPedAppearance(dummyPed, clothing.appearance or clothing)
+    exports["illenium-appearance"]:setPedAppearance(dummyPed, skin.clothing)
     SetEntityAlpha(dummyPed, 200, false)
 
     return dummyPed
@@ -69,11 +69,11 @@ function selector:start()
             if lineup > #lineups then break end
             
             local location = lineups[lineup]
-            local dummyPed = createSelectPed(character.metadata.clothing, location)
+            local dummyPed = createSelectPed(character.skin, location)
 
             self.peds[#self.peds+1] = dummyPed
             self.linedUp[lineup] = {
-                character = character.id,
+                character = character.citizenid,
                 ped = dummyPed
             }
         end
@@ -119,7 +119,7 @@ function selector:select()
     local ped = self:findPedById(selector.selected)
     if not ped then return end
 
-    TriggerServerEvent("ND_Players:select", self.selected)
+    TriggerServerEvent("ND_Players:select", selector.selected)
 
     local soundId = GetSoundId()
     PlaySoundFrontend(soundId, "BASE_JUMP_PASSED", "HUD_AWARDS", true)

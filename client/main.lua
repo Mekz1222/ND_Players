@@ -26,19 +26,21 @@ local function init(ped)
     end)
 
     camera:create()
+	ShutdownLoadingScreen()
+	ShutdownLoadingScreenNui()
 end
 
-AddEventHandler("onResourceStart", function(resourceName)
-    if cache.resource ~= resourceName then return end
-    Wait(500)
+-- AddEventHandler("onResourceStart", function(resourceName)
+--     if cache.resource ~= resourceName then return end
+--     Wait(500)
     
-    if lastSource == cache.serverId and lastCharacter then
-        return TriggerServerEvent("ND_Players:select", lastCharacter)
-    end
+--     -- if lastSource == cache.serverId and lastCharacter then
+--     --     return TriggerServerEvent("ND_Players:select", lastCharacter)
+--     -- end
 
-    Wait(1500)
-    init(cache.ped)
-end)
+--     Wait(1500)
+--     init(cache.ped)
+-- end)
 
 AddEventHandler("onResourceStop", function(resourceName)
     if cache.resource ~= resourceName then return end
@@ -46,10 +48,10 @@ AddEventHandler("onResourceStop", function(resourceName)
     selector:stop()
     TriggerServerEvent("ND_Players:updateBucket", false)
 
-    local player = NDCore.getPlayer()
+    local player = QBX.PlayerData
     if player then
         SetResourceKvpInt("ND_Characters:source", cache.serverId)
-        SetResourceKvpInt("ND_Characters:character", player.id)
+        SetResourceKvpInt("ND_Characters:character", player.citizenid)
     end
 end)
 
@@ -68,14 +70,17 @@ RegisterNUICallback("spawn", function(data)
     local coords = spawns?[data.type]?[data.id+1]?.coords
     if not coords then return end
 
-    local player = NDCore.getPlayer()
+    local player = QBX.PlayerData
+    clothing, model, gender = lib.callback.await('ND_Players:fetchSkin', false, player.citizenid)
+    
     if not player then return end
-
-    local clothing = player.metadata.clothing
-    exports["fivem-appearance"]:setPlayerModel(clothing.model or clothing.appearance.model)
+    if not clothing then
+        TriggerEvent('qb-clothes:client:CreateFirstCharacter')
+    end
+    exports["illenium-appearance"]:setPlayerModel(model)
 
     local ped = PlayerPedId()
-    exports["fivem-appearance"]:setPedAppearance(ped, clothing.appearance or clothing)
+    exports["illenium-appearance"]:setPedAppearance(ped, clothing)
 
     teleport(ped, coords, false)
     FreezeEntityPosition(ped, false)
@@ -173,11 +178,11 @@ local function createNewCharacter()
 
     teleport(cache.ped, vec4(402.84, -996.83, -100.00, 182.28))
     camera:delete()
-    selector:stop()
     
     creator:start(input, function()
         Wait(1000)
         init(cache.ped)
+        selector:stop()
     end)
 end
 
@@ -226,12 +231,11 @@ local function playAsCharacter()
     })
 
     if alert ~= "confirm" then return end
-    SendNUIMessage({ type = "selector" })
-
+    
     selector:select()
     SetNuiFocus(true, true)
 
-    local player = NDCore.getPlayer()
+    local player = QBX.PlayerData
     creator:openMap(player)
 
     DoScreenFadeIn(0)
@@ -251,6 +255,19 @@ end)
 RegisterNetEvent("ND:characterMenu", function()
     if source == "" then return end
     init(cache.ped)
+end)
+
+
+CreateThread(function()
+    while true do
+      Wait(0)
+      if NetworkIsSessionStarted() then
+        pcall(function() exports.spawnmanager:setAutoSpawn(false) end)
+        Wait(250)
+        init(cache.ped)
+        break
+      end
+    end
 end)
 
 local allowChangeCommand = true -- this doesn't do anything if config option is set.

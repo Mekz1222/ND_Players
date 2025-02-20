@@ -5,8 +5,8 @@ game "gta5"
 lua54 "yes"
 use_experimental_fxv2_oal "yes"
 
-author "Andy's Development"
-description "Simple character selection for ND Core."
+author "Andy's Development Convert by Mekz1222"
+description "Simple character selection for QBOX."
 version "1.0.0"
 
 files {
@@ -24,8 +24,11 @@ ui_page "ui/index.html"
 
 shared_scripts {
    "@ox_lib/init.lua",
-   "@ND_Core/init.lua"
+   "@qbx_core/modules/playerdata.lua"
 }
 
-server_script "server/main.lua"
+server_script {
+    "@oxmysql/lib/MySQL.lua",
+    "server/main.lua"
+}
 client_script "client/main.lua"

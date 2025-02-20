@@ -12,7 +12,7 @@ end
 exports("manageSpawn", manageSpawn)
 
 manageSpawn("DEFAULT", function(player)
-    local location = player.metadata?.location
+    local location = player and player.position or false
     if not location then return end
     return {
         name = "Last location",
@@ -43,46 +43,27 @@ function creator:openMap(player)
         type = "map",
         status = true,
         markers = spawnLocations,
-        job = player.job
+        job = player and player.job and player.job.name or nil
     })
 end
 
-function creator:start(input, exitCallback)
+function creator:start(input)
     local ped = cache.ped
-
-    if input[4] == "male" and GetEntityModel(ped) ~= `mp_m_freemode_01` then
-        exports["fivem-appearance"]:setPlayerModel("mp_m_freemode_01")
-    elseif input[4] == "female" and GetEntityModel(ped) ~= `mp_f_freemode_01` then
-        exports["fivem-appearance"]:setPlayerModel("mp_f_freemode_01")
-    end
     Wait(500)
 
-    local function customize(appearance)
-        if not appearance then
-            return exitCallback and exitCallback()
-        end
+    DoScreenFadeOut(300)
+    Wait(200)
 
-        DoScreenFadeOut(300)
-        Wait(200)
-
-        local player = lib.callback.await("ND_Players:new", false, input, appearance)
-        self:openMap(player)
-        
-        Wait(150)
-        DoScreenFadeIn(0)
-        TriggerServerEvent("ND_Players:updateBucket", false)
-    end
+    local success, player = lib.callback.await("ND_Players:new", false, input)
+    self:openMap(player)
     
-    exports["fivem-appearance"]:startPlayerCustomization(customize, {
-        ped = false,
-        headBlend = true,
-        faceFeatures = true,
-        headOverlays = true,
-        components = true,
-        props = true,
-        tattoos = false
-    })
+    Wait(150)
+    DoScreenFadeIn(0)
+    TriggerServerEvent("ND_Players:updateBucket", false)
+    
+    DoScreenFadeIn(500)
 
+    
     DoScreenFadeIn(500)
 end
 
